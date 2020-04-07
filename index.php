@@ -55,8 +55,8 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-	echo ENVIRONMENT;
-	die();
+	// echo ENVIRONMENT;
+	// die();
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
