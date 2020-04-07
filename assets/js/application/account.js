@@ -40,6 +40,7 @@ $(document).ready(function () {
         State: "",
         PackageName: "",
         PackageAmount: 0,
+        PackageGroup: "",
         email: ""
     }
     $(".btn-package").click(function () {
@@ -51,6 +52,7 @@ $(document).ready(function () {
         userDetails.State = $("#state").val();
         userDetails.PackageName = $(this).data('member').toUpperCase();
         userDetails.PackageAmount = $(this).data('price');
+        userDetails.PackageGroup = (userDetails.PackageAmount > 30000) ? "premium":"standard" 
         userDetails.regState = "step-two";
         sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
         $(`.${presentState}`).removeClass('current').addClass('done');
@@ -80,8 +82,11 @@ $(document).ready(function () {
                 sessionData.regState = "step-three";
                 break;
             case "step-three":
-                sessionData.regState = "step-four";
+                sessionData.regState = (sessionData.PackageGroup == 'standard') ?  "step-four": "completed";
                 $('.next-previous').hide("fast");
+                break;
+            case "completed":
+                registerPremium();
                 break;
             default:
                 break;
@@ -150,6 +155,44 @@ $(document).ready(function () {
         });
         handler.openIframe();
      })
+     function registerPremium() {
+        var sessionData = JSON.parse(sessionStorage.getItem("userDetails"));
+        var formData = new FormData($('form#regForm')[0]);
+        formData.append("Membership", sessionData.PackageName);
+        formData.append("Amount", sessionData.PackageAmount);
+       $.ajax({
+            url: endpoints.register,
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (data) {
+                console.log(data);
+                try {
+                    resp = JSON.parse(data);
+                    if (resp.StatusCode == '00') {
+                        succesMessage(resp.StatusMessage);
+                       
+                    } else {
+                        errorMessage(resp.StatusMessage);
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    fatalMessage();
+                }
+
+            },
+            error: function (err) {
+                console.log(err);
+                fatalMessage();
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        
+     }
 
     // var $elem = $(this).closest('div.body').next().find('div.calculationContainer') 
 });

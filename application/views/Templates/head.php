@@ -16,8 +16,6 @@
   <link rel="stylesheet" href="<?php echo asset_url('css/site.min599c.css?v4.0.2') ?>">
 
   <!-- Skin tools (demo site only) -->
-  <link rel="stylesheet" href="<?php echo asset_url('css/skintools.min599c.css?v4.0.2') ?>">
-  <script src="<?php echo asset_url('js/Plugin/skintools.min599c.js?v4.0.2') ?>"></script>
 
   <!-- Plugins -->
   <link rel="stylesheet" href="<?php echo asset_url('vendor/animsition/animsition.min599c.css?v4.0.2') ?>">
