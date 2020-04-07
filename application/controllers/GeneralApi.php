@@ -32,7 +32,7 @@ class GeneralApi extends CI_Controller {
     {
         try {
            $guid = $this->utilities->GenerateGUID();
-            if (!empty($key)) {
+            if (!empty($guid)) {
                 echo $this->utilities->outputMessage("success", $guid);
                 return;
             }
