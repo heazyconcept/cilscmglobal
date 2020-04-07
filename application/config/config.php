@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost:85/cilscmglobal';
+$config['base_url'] =  (ENVIRONMENT !== 'production')? 'http://localhost:85/cilscmglobal' : 'http://cilscmglobal.osigla.com.ng';
 
 /*
 |--------------------------------------------------------------------------

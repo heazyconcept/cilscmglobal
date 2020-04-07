@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = (ENVIRONMENT !== 'production')?'default': "remote";
 $query_builder = TRUE;
 
 // $db['default'] = array(
@@ -95,28 +95,28 @@ $query_builder = TRUE;
 // 	'failover' => array(),
 // 	'save_queries' => TRUE
 // );
-// $db['default'] = array(
-//     'dsn' => '',
-//     'hostname' => 'localhost',
-// //    'port' => 3307,
-//     'username' => 'mapleedu_ereceiptuser',
-//     'password' => '(XI4QXp,FAxy',
-//     'database' => 'mapleedu_ereceipt',
-//     'dbdriver' => 'mysqli',
-//     'dbprefix' => '',
-//     'pconnect' => false,
-//     'db_debug' => false,
-//     'cache_on' => false,
-//     'cachedir' => '',
-//     'char_set' => 'utf8',
-//     'dbcollat' => 'utf8_general_ci',
-//     'swap_pre' => '',
-//     'encrypt' => false,
-//     'compress' => false,
-//     'stricton' => false,
-//     'failover' => array(),
-//     'save_queries' => true,
-// );
+$db['remote'] = array(
+    'dsn' => '',
+    'hostname' => 'localhost',
+//    'port' => 3307,
+    'username' => 'mapleedu_ereceiptuser',
+    'password' => '(XI4QXp,FAxy',
+    'database' => 'mapleedu_ereceipt',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => false,
+    'db_debug' => false,
+    'cache_on' => false,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => false,
+    'compress' => false,
+    'stricton' => false,
+    'failover' => array(),
+    'save_queries' => true,
+);
 
 $db['default'] = array(
     'dsn' => '',
