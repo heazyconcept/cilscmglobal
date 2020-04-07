@@ -36,6 +36,7 @@
   <script src="<?php echo asset_url('js/Plugin/asscrollable.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/slidepanel.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/switchery.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('js/custom.js') ?>"></script>
 
 
   <script>

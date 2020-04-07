@@ -11,12 +11,12 @@ $(document).ready(function () {
                 }
             } catch (error) {
                 console.log(error);
-                  alert("Internal server error");
+                fatalMessage();
             }
         })
         .fail(err =>{
             console.log(err);
-            alert("Internal server error");
+            fatalMessage();
         })
     $.post(endpoints.transactionRef)
     .done(data => {
@@ -28,12 +28,12 @@ $(document).ready(function () {
             }
         } catch (error) {
             console.log(error);
-                alert("Internal server error");
+            fatalMessage();
         }
     })
     .fail(err =>{
         console.log(err);
-        alert("Internal server error");
+        fatalMessage();
     })
     var userDetails = {
         regState: "step-one",
@@ -45,11 +45,11 @@ $(document).ready(function () {
     $(".btn-package").click(function () {
         var presentState = userDetails.regState;
         if ($("#state").val() == null || $("#state").val() == undefined || $("#state").val() == '') {
-            alert("you need to select state");
+            errorMessage("you need to select state");
             return;
         };
         userDetails.State = $("#state").val();
-        userDetails.PackageName = $(this).data('member');
+        userDetails.PackageName = $(this).data('member').toUpperCase();
         userDetails.PackageAmount = $(this).data('price');
         userDetails.regState = "step-two";
         sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -71,7 +71,7 @@ $(document).ready(function () {
         });
 
         if (value.length >= 0 && (value.length !== reqlength)) {
-            alert('Please fill out all required fields.');
+            errorMessage('Please fill out all required fields.');
             return;
         }
         switch (initialStage) {
@@ -101,39 +101,46 @@ $(document).ready(function () {
             amount: sessionData.PackageAmount * 100,
             ref: transactionRef,
             callback: function (response) {
-                var remitData = {TransactionRef: transactionRef, Amount: unitCost, paymentResponse: JSON.stringify(response), taskReference: '<?php echo $task->TaskReference ?>'  }
+                console.log(response);
+                
+                var formData = new FormData($('form#regForm')[0]);
+                formData.append("Membership", sessionData.PackageName);
+                formData.append("TransactionRef", transactionRef);
+                formData.append("TransactionResponse", JSON.stringify(response));
+                formData.append("TransactionStatus", "Success");
+                formData.append("Amount", sessionData.PackageAmount);
                $.ajax({
-                    url: '<?php echo base_url("userAjax/NewRequest"); ?>',
+                    url: endpoints.register,
                     type: 'POST',
-                    data: remitData,
+                    data: formData,
                     async: false,
                     success: function (data) {
                         console.log(data);
                         try {
                             resp = JSON.parse(data);
                             if (resp.StatusCode == '00') {
-                                showSuccessMessage(resp.StatusMessage);
+                                succesMessage(resp.StatusMessage);
                                 setTimeout(() => {
                                     location.reload();
                                 }, 2000);
                             } else {
-                                showInfoMessage(resp.StatusMessage);
+                                errorMessage(resp.StatusMessage);
                             }
 
                         } catch (error) {
                             console.log(error);
-                            showErrorMessage();
+                            fatalMessage();
                         }
 
                     },
                     error: function (err) {
                         console.log(err);
-                        showErrorMessage();
+                        fatalMessage();
 
                     },
                     cache: false,
-                    contentType: "application/x-www-form-urlencoded",
-                    processData: true
+                    contentType: false,
+                    processData: false
                 });
 
             },

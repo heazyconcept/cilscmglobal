@@ -5,10 +5,61 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class AccountApi extends CI_Controller
 {
 
+    private $request;
+    private $staticOptions;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('users');
+        $this->request = (object) $_POST;
+        $this->config->load('options', true);
+        $this->staticOptions = (object) $this->config->item('options');
+
+    }
+    public function Register()
+    {
+        try {
+          
+            $this->load->model("transactionLogs");
+            $this->load->model('transactions');
+            $premiumPackage = $this->staticOptions->package_group["Premium"];
+            $standardPackage = $this->staticOptions->package_group["Standard"];
+            if (in_array($this->request->Membership, $standardPackage)) {
+                $logResponse = $this->transactionLogs->Insert($this->request);
+                if ($logResponse > 0) {
+                    $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
+                    $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
+                    $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
+                    $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
+                    $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
+                    $Resume = $this->utilities->UploadFile("Resume", "Certificates");
+                    $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "UniversityCert", $UniversityCert);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "OtherCert", $OtherCert);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "Status", "Active");
+                    $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", "Standard");
+                    $userId = $this->users->Insert($userData);
+                    if ($userId > 0) {
+                        $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
+                        $modelResponse = $this->transactions->Insert($userData);
+                        if ($modelResponse > 0) {
+                            echo $this->utilities->outputMessage("success", "Registration Successfull");
+                            return;
+                        }
+                        
+                    }
+                   
+                }
+                
+               
+            }
+
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+        }
     }
 
     public function login()

@@ -201,13 +201,18 @@ class Utilities
     {
         try {
             $this->ci->load->helper('form');
-            $config['upload_path'] = './upload/' . $UploadFolder . '/';
+            $folderName = "./upload/{$UploadFolder}/";
+            if (!file_exists($folderName)) {
+                mkdir($folderName, 0777, true);
+           }
+            $config['upload_path'] = $folderName;
             $config['allowed_types'] = 'jpg|png|gif|';
             $config['max_size'] = 10000;
             $this->ci->load->library('upload', $config);
             if (!$this->ci->upload->do_upload($UploadName)) {
                 $error = array('error' => $this->upload->display_errors());
-                $this->LogError($error);
+                $foo = json_encode($error);
+                log_message('error',$foo);
                 return '';
 
             } else {
@@ -311,7 +316,7 @@ class Utilities
             $this->ci->load->library("cart");
             return $this->ci->cart->contents();
         } catch (\Throwable $th) {
-            LogError($th);
+            $this->LogError($th);
             return array();
         }
 
@@ -320,7 +325,7 @@ class Utilities
     {
         $this->ci->load->library("cart");
         if (empty($type)) {
-            return $this->FormatAmount($this->ci->cart->total());
+            // return $this->FormatAmount($this->ci->cart->total());
         } elseif ($type == 'raw') {
             return $this->ci->cart->total();
         } else {

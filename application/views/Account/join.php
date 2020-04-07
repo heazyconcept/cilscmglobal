@@ -378,7 +378,7 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                         <div class="form-group">
-                                                                <input type="password"  class="form-control step-two-field" 
+                                                                <input type="password" name="Password"  class="form-control step-two-field" 
                                                                     placeholder="Password" autocomplete="off" />
                                                             </div>
 
