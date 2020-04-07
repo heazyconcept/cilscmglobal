@@ -1,0 +1,26 @@
+*/config/development
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+#codeigniter 3
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+/vendor/
+/assets/pdfs/*
+assets/pdfs/receipt-eSP-0001.pdf
+application.zip
+application/controllers.zip
+assets/images.zip
+assets.zip
+application/libraries.zip
+assets/css.zip
+application/models.zip

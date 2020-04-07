@@ -1,0 +1,44 @@
+:root {
+   --site-primary-color: #25a3c5;
+}
+.navbar-inverse {
+    background-color: #fff;
+    border-color: rgba(0,0,0,.1);
+}
+.site-navbar .navbar-header {
+    width: 300px;
+}
+.site-navbar .navbar-header .navbar-brand-logo {
+    height: 80px;
+}
+.site-navbar-small .site-navbar {
+    height: 108px;
+    min-height: 4.286rem;
+}
+.site-navbar-small .site-navbar .navbar-brand {
+    height: 108px;
+    padding: 20px;
+}
+.page {
+    background: #fff;
+}
+.panel-title {
+    font-size: 27px;
+    font-weight: 600;
+    padding: 10px;
+}
+.pearl.offset-1 {
+    margin-left: 8.333333%!important;
+}
+.pricing-features{
+    padding: 10px!important;
+}
+.pricing-table .pricing-title {
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.pricing-table [class*=pricing-column]:hover {
+    background-color: #fff;
+    border-right: 1px solid #e4eaec;
+}
