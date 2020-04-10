@@ -99,11 +99,29 @@ function SimpleAjaxInit(URL, Data, isRedirect = false, isSelfRedirect = false, s
 
 }
 function succesMessage(message) {
-    alertify.success(message);
+    Swal.fire(
+        'Success',
+        message,
+        'success'
+      )
+    // alertify.success();
 }
 function errorMessage(message) {
-    alertify.error(message);
+    Swal.fire(
+        'Error',
+        message,
+        'info'
+      )
+    // alertify.error(message);
 }
 function fatalMessage() {
-    alertify.error('Internal server error occurred');
+    Swal.fire(
+        'Fatal',
+        'Internal server error occurred',
+        'error'
+      )
+    // alertify.error('Internal server error occurred');
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

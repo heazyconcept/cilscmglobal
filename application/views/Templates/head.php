@@ -5,7 +5,7 @@
   <meta name="description" content="bootstrap admin template">
   <meta name="author" content="">
 
-  <title>Step | Remark Admin Template</title>
+  <title><?php echo $this->utilities->GetPageTitle(); ?></title>
 
   <link rel="apple-touch-icon" href="<?php echo asset_url('images/apple-touch-icon.png') ?>">
   <link rel="shortcut icon" href="<?php echo asset_url('images/favicon.ico') ?>">
@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="<?php echo asset_url('fonts/web-icons/web-icons.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('fonts/brand-icons/brand-icons.min599c.css?v4.0.2') ?>">
   <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">
+  <link rel="stylesheet" href="<?php echo asset_url('css/loading.css') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('css/extras.css') ?>">
 
   <!--[if lt IE 9]>

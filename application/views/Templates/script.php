@@ -6,7 +6,7 @@
   <script src="<?php echo asset_url('vendor/asscrollbar/jquery-asScrollbar.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/asscrollable/jquery-asScrollable.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/ashoverscroll/jquery-asHoverScroll.min599c.js?v4.0.2') ?>"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- Plugins -->
   <script src="<?php echo asset_url('vendor/switchery/switchery.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/intro-js/intro.min599c.js?v4.0.2') ?>"></script>
@@ -36,9 +36,17 @@
   <script src="<?php echo asset_url('js/Plugin/asscrollable.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/slidepanel.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/switchery.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('js/loading.js') ?>"></script>
   <script src="<?php echo asset_url('js/custom.js') ?>"></script>
 
-
+  <script>
+     $(document).ajaxStart(function () {
+      $('body').loading('start');
+      });
+      $(document).ajaxStop(function () {
+        $('body').loading('stop');
+        });
+    </script>
   <script>
     (function(document, window, $) {
       'use strict';

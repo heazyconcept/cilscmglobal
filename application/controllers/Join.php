@@ -6,7 +6,7 @@ class Join extends CI_Controller {
 
     public function index()
     {
-        
+        $this->utilities->SetPageTitle("CILSCM - Get a Membership Certificate");
         $this->load->view('Account/join');
     }
 

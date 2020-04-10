@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php $this->load->library('utilities'); ?>
-<?php $states = json_decode($this->utilities->GetStates()); ?>
+<?php $countries = json_decode($this->utilities->GetCountries()); ?>
 <html class="no-js css-menubar" lang="en">
 
 <?php $this->load->view("Templates/head"); ?>
@@ -39,7 +39,7 @@
                         <div class="offset-md-2 col-md-8">
                             <div class="panel-heading">
                                 <div class="panel-title">
-                                    Become a CILSCM member
+                                    Get a Membership Certificate
                                 </div>
                                 <hr>
                             </div>
@@ -74,14 +74,16 @@
                                         <div class="col-md-8 offset-md-2">
                                             <div class="example">
                                                 <div class="form-group row">
-                                                    <label class="col-md-3 col-form-label">Select State:
+                                                    <label class="col-md-3 col-form-label">Select Country:
 
                                                     </label>
                                                     <div class="col-md-9">
-                                                        <select class="form-control" id="state" name="State" data-plugin="select2">
-                                                            <option value="">Select your state</option>
-                                                            <?php foreach ($states as $state): ?>
-                                                            <option value="<?php echo $state; ?>"><?php echo $state; ?>
+                                                        <select class="form-control" id="country" name="Country"
+                                                            data-plugin="select2">
+                                                            <option value="">Select your country</option>
+                                                            <?php foreach ($countries as $country): ?>
+                                                            <option value="<?php echo $country->name; ?>">
+                                                                <?php echo $country->name; ?>
                                                             </option>
 
                                                             <?php endforeach;?>
@@ -99,6 +101,10 @@
                                                     <div class="pricing-table">
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Student Member.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">10,000</span>
@@ -107,12 +113,11 @@
                                                                 <div class="pricing-title">Student Membership</div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>Any full-time student attending a college or
+                                                                    university with minimum of 5 credits including
+                                                                    Mathematics and English and any other 3 subjects in
+                                                                    SSCE Results from NECO, NABTEB WAEC/GCE or its
+                                                                    equivalents.... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="10000"
@@ -120,11 +125,15 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Affiliate Member.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">30,000</span>
@@ -133,12 +142,11 @@
                                                                 <div class="pricing-title">Affiliate Member</div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>CILSCM offers Affiliate membership to undergraduate
+                                                                    students pursuing a professional programme or
+                                                                    graduate degree whose relates to Transport,
+                                                                    Logistics and Supply Chain, Procurement, Business,
+                                                                    Management Science or Social Sciences.... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="30000"
@@ -146,11 +154,15 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Graduate Member.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">50,000</span>
@@ -159,23 +171,27 @@
                                                                 <div class="pricing-title">Graduate Member</div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>The gateway to Associate Membership status. <br>
+                                                                    Graduate Members have achieved a recognised and
+                                                                    relevant degree-level or similar programmes or
+                                                                    qualifications and are working towards the goal of
+                                                                    Chartered status.
+                                                                ... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="50000" data-member="Graduate Member"
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Associate Member.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">80,000</span>
@@ -186,12 +202,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>Entry Requirements: Diploma, HND, B.Sc or Professional Certificates in any course of study and  years work experience in areas aspect of Logistics and Supply Chain Management. ... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="80000"
@@ -199,11 +210,15 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Full Member.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">100,000</span>
@@ -214,12 +229,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>As the only organisation in the Africa that offers Chartered membership certifications for Logistics and Supply  Chain Management professionals, we can help you achieve the highest professional standards and gain international recognition.... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="100000"
@@ -227,11 +237,15 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Fellowship membe.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">150,000</span>
@@ -242,12 +256,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>As the only organisation in the Africa that offers Chartered membership certifications for Logistics and Supply  Chain Management professionals, we can help you achieve the highest professional standards and gain international recognition.... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="150000"
@@ -255,11 +264,15 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
                                                         <div class="pricing-column-three">
                                                             <div class="pricing-header">
+                                                                <div class="price-image">
+                                                                    <img src="<?php echo asset_url('images/Doctoral Fellow.png') ?>"
+                                                                        alt="">
+                                                                </div>
                                                                 <div class="pricing-price">
                                                                     <span class="pricing-currency">NGN</span>
                                                                     <span class="pricing-amount">200,000</span>
@@ -269,12 +282,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pricing-features">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing
-                                                                    elit.
-                                                                    Ea dignissimos iure magni molestiae iste. Autem in
-                                                                    sapiente rem ipsa minus similique dignissimos
-                                                                    cupiditate
-                                                                    ut, nam facere cumque nulla vitae nihil?</p>
+                                                                <p>Doctoral Fellowship is the Institute's elite level of professional membership. Doctoral Fellowship is only awarded to Masters degrees, PhD holders or Qualified Professional Members of CIPS, CIPSM, APICS,  CILT, CILSCM, CISCM, CIWM, CIS CIoTA or its equivalents... <a href="#" target="_blank">Read more</a> </p>
                                                             </div>
                                                             <div class="pricing-footer">
                                                                 <button data-price="200000"
@@ -282,7 +290,7 @@
                                                                     class="btn btn-primary btn-outline btn-package"
                                                                     role="button" type="button"><i
                                                                         class="icon wb-arrow-right font-size-16 mr-15"
-                                                                        aria-hidden="true"></i>Select</button>
+                                                                        aria-hidden="true"></i>Apply</button>
                                                             </div>
                                                         </div>
 
@@ -296,93 +304,108 @@
                                 </div>
                                 <div class="step-two-wrapper" style="display: none;">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-10 offset-md-1">
                                             <div class="example-example">
                                                 <h4 class="example-title">Personal Details</h4>
                                                 <div class="example">
                                                     <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control step-two-field" name="Fullname" id="FullName"
+                                                                <label for=""> Full name</label>
+                                                                <input type="text" class="form-control step-two-field"
+                                                                    name="Fullname" id="FullName"
                                                                     placeholder="Full Name" autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label for=""> Email address</label>
                                                                 <input type="email" class="form-control step-two-field"
-                                                                    id="EmailAddress" name="EmailAddress" placeholder="Email address"
-                                                                    autocomplete="off" />
+                                                                    id="EmailAddress" name="EmailAddress"
+                                                                    placeholder="Email address" autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="date" name="Dob" class="form-control step-two-field" id="DOB"
+                                                                <label for=""> Date of birth</label>
+                                                                <input type="date" name="Dob"
+                                                                    class="form-control step-two-field" id="DOB"
                                                                     placeholder="Date of birth" autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for=""> O/level Certificate</label>
-                                                                <input type="file" name="OlevelCert" class="form-control step-two-field" id=""
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="OlevelCert"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for=""> Secondary School Certificate</label>
-                                                                <input type="file" name="SecondarySchoolCert" class="form-control step-two-field" id=""
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="SecondarySchoolCert"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for=""> Professional Certificate</label>
-                                                                <input type="file" name="ProfessionalCert" class="form-control step-two-field" id=""
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="ProfessionalCert"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for=""> University Degree</label>
-                                                                <input type="file" name="UniversityCert" class="form-control step-two-field" id=""
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="UniversityCert"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="">Other Relevant Certificate</label>
-                                                                <input type="file" name="OtherCert" class="form-control step-two-field" id=""
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="OtherCert"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="">Current CV</label>
-                                                                <input type="file" name="Resume" class="form-control step-two-field" 
-                                                                     autocomplete="off" />
+                                                                <input type="file" name="Resume"
+                                                                    class="form-control step-two-field"
+                                                                    autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                        <div class="form-group">
-                                                                <input type="password" name="Password"  class="form-control step-two-field" 
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for=""> Your password</label>
+                                                                <input type="password" name="Password"
+                                                                    class="form-control step-two-field"
                                                                     placeholder="Password" autocomplete="off" />
                                                             </div>
 
                                                         </div>
+                                                    </div>
+                                                    <div class="row">
+
                                                     </div>
 
                                                 </div>
@@ -398,12 +421,22 @@
                                                 <h4 class="example-title">Address Details</h4>
                                                 <div class="example">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control step-three-field" id="Address"
-                                                            placeholder="Address " name="Address" autocomplete="off" />
+                                                        <label for=""> Contact Address</label>
+                                                        <input type="text" class="form-control step-three-field"
+                                                            id="Address" placeholder="Address " name="Address"
+                                                            autocomplete="off" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <input type="text" name="City" class="form-control step-three-field" id="City"
+                                                        <label for=""> City</label>
+                                                        <input type="text" name="City"
+                                                            class="form-control step-three-field" id="City"
                                                             placeholder="City" autocomplete="off" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for=""> State</label>
+                                                        <input type="text" name="State"
+                                                            class="form-control step-three-field" id="State"
+                                                            placeholder="State" autocomplete="off" />
                                                     </div>
 
                                                 </div>
@@ -415,7 +448,7 @@
                                 <div class="step-four-wrapper" style="display: none;">
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
-                                            <div class="example-example">
+                                            <div class="example-example standard" style="display: none;">
                                                 <h4 class="example-title">Payment Details</h4>
                                                 <div class="example">
                                                     <div class="payment-details">
@@ -429,14 +462,22 @@
 
                                                 </div>
                                             </div>
+                                            <div class="example-example premium" style="display: none;">
+                                                <h4 class="example-title">Registration Successful</h4>
+                                                <div class="example premium-content">
+
+
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="next-previous" style="display: none;">
                                     <div class="row">
-                                        <div class="col-md-6 offset-md-3">
+                                        <div class="col-md-6 offset-md-1">
                                             <button class="btn btn-primary btn-next" type="button">Next</button>
+                                            <button class="btn-previous" type="button">Previous</button>
                                         </div>
                                     </div>
 

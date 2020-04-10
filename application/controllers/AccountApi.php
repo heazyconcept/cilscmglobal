@@ -22,31 +22,32 @@ class AccountApi extends CI_Controller
           
             $this->load->model("transactionLogs");
             $this->load->model('transactions');
-            $premiumPackage = $this->staticOptions->package_group["Premium"];
+            
             $standardPackage = $this->staticOptions->package_group["Standard"];
             if (in_array($this->request->Membership, $standardPackage)) {
                 $logResponse = $this->transactionLogs->Insert($this->request);
                 if ($logResponse > 0) {
-                    $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
-                    $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
-                    $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
-                    $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
-                    $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
-                    $Resume = $this->utilities->UploadFile("Resume", "Certificates");
-                    $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "UniversityCert", $UniversityCert);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "OtherCert", $OtherCert);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "Status", "Active");
-                    $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", "Standard");
+                    // $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
+                    // $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
+                    // $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
+                    // $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
+                    // $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
+                    // $Resume = $this->utilities->UploadFile("Resume", "Certificates");
+                    // $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "UniversityCert", $UniversityCert);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "OtherCert", $OtherCert);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "Status", "Active");
+                    // $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", "Standard");
+                    $userData = $this->prepareUserData("Active", "Standard");
                     $userId = $this->users->Insert($userData);
                     if ($userId > 0) {
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
                         $modelResponse = $this->transactions->Insert($userData);
                         if ($modelResponse > 0) {
-                            echo $this->utilities->outputMessage("success", "Registration Successfull");
+                            echo $this->utilities->outputMessage("success", "Registration Successful");
                             return;
                         }
                         
@@ -59,7 +60,38 @@ class AccountApi extends CI_Controller
 
         } catch (\Throwable $th) {
             $this->utilities->LogError($th);
+            echo $this->utilities->outputMessage("fatal");
+            return;
         }
+        echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
+        return;
+    }
+    public function ValidatePackage()
+    {
+        try {
+            $premiumPackage = $this->staticOptions->package_group["Premium"];
+            if (in_array($this->request->Membership, $premiumPackage)) {
+               $userData = $this->prepareUserData("Pending", "Premium");
+                $userId = $this->users->Insert($userData);
+                if ($userId > 0) {
+                   $message = "premium;Congratulations! Your registration is successful. Kindly exercise Patience while we verify your details";
+                   echo $this->utilities->outputMessage("success", $message);
+                   return;
+                }
+
+            }else {
+                $message = $this->utilities->GenerateGUID();
+                echo $this->utilities->outputMessage("success", "standard;{$message}");
+                return;
+            }
+
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+            echo $this->utilities->outputMessage("fatal");
+            return;
+        }
+        echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
+        return;
     }
 
     public function login()
@@ -141,6 +173,30 @@ class AccountApi extends CI_Controller
         }
         echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
         return;
+    }
+    private function prepareUserData(string $status, string $membershipGroup): stdClass
+    {
+        try {
+            $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
+            $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
+            $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
+            $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
+            $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
+            $Resume = $this->utilities->UploadFile("Resume", "Certificates");
+            $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "UniversityCert", $UniversityCert);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "OtherCert", $OtherCert);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "Status", $status);
+            $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", $membershipGroup);
+            return $userData;
+        } catch (\Throwable $th) {
+           $this->utilities->LogError($th);
+        }
+        return (object) array();
+
     }
 
 }

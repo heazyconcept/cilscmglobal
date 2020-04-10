@@ -30,6 +30,7 @@ class Users extends CI_Model
     private $State;
     private $City;
     private $Password;
+    private $Country;
 
     public function Insert(stdClass $request): int
     {
@@ -51,6 +52,7 @@ class Users extends CI_Model
                "DateCreated" => $this->utilities->DbTimeFormat(),
                "State" => $request->State,
                "City" => $request->City,
+               "Country" => $request->Country,
                "Password" => password_hash($request->Password, PASSWORD_DEFAULT)
            );
            $this->db->insert($this->TableName, $newUser);
