@@ -31,6 +31,8 @@ class Users extends CI_Model
     private $City;
     private $Password;
     private $Country;
+    private $RegNumber;
+    private $MembershipId;
 
     public function Insert(stdClass $request): int
     {
@@ -53,6 +55,8 @@ class Users extends CI_Model
                "State" => $request->State,
                "City" => $request->City,
                "Country" => $request->Country,
+               "RegNumber" => $request->RegNumber??0,
+               "MembershipId" => $request->MembershipId??"",
                "Password" => password_hash($request->Password, PASSWORD_DEFAULT)
            );
            $this->db->insert($this->TableName, $newUser);
@@ -64,6 +68,24 @@ class Users extends CI_Model
         }
         return 0;
 
+    }
+    public function GetLastRegNumberByMembership(string $membership):int
+    {
+       try {
+           $this->db->select("RegNumber");
+           $this->db->where("Membership", $membership);
+           $this->db->order_by("RegNumber", "DESC");
+           $this->db->limit(1);
+           $dbResult = $this->db->get($this->TableName)->result();
+           if (!empty($dbResult)) {
+               return $dbResult[0]->RegNumber;
+           }
+       }  catch (\Throwable $th) {
+
+        log_message('error', $th->getMessage());
+        return -1;
+    }
+    return 0;
     }
     // public function update(stdClass $UserData, int $UserId): int
     // {
@@ -93,26 +115,23 @@ class Users extends CI_Model
     //     return 0;
 
     // }
-    // public function Get(int $UserId): stdClass
-    // {
-    //     try {
-    //         $dbOptions = array(
-    //             "table_name" => $this->TableName,
-    //             "targets" => (object) array("Id" => $UserId),
-    //         );
-    //         $dbResult = $this->connectDb->select_data((object) $dbOptions);
-    //         if (!empty($dbResult)) {
-    //             return $dbResult[0];
-    //         }
+    public function Get(int $UserId): stdClass
+    {
+        try {
+            $this->db->where("Id", $UserId);
+            $dbResult = $this->db->get($this->TableName)->row();
+            if (!empty((array)$dbResult)) {
+                return $dbResult;
+            }
 
-    //     } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
 
-    //         log_message('error', $th->getMessage());
+            log_message('error', $th->getMessage());
 
-    //     }
-    //     return null;
+        }
+        return (object) array();
 
-    // }
+    }
     // public function GetName(int $UserId): string
     // {
     //     try {
@@ -154,26 +173,40 @@ class Users extends CI_Model
 
     // }
 
-    // public function GetByEmail(string $EmailAddress): stdClass
-    // {
-    //     try {
-    //         $dbOptions = array(
-    //             "table_name" => $this->TableName,
-    //             "targets" => (object) array("EmailAddress" => $EmailAddress),
-    //         );
-    //         $dbResult = $this->connectDb->select_data((object) $dbOptions);
-    //         if (!empty($dbResult)) {
-    //             return $dbResult[0];
-    //         }
+    public function GetByEmail(string $EmailAddress): stdClass
+    {
+        try {
+            $this->db->where("EmailAddress", $EmailAddress);
+           $dbResult =  $this->db->get($this->TableName)->row();
+           if (!empty((array) $dbResult)) {
+              return $dbResult;
+           }
 
-    //     } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
 
-    //         log_message('error', $th->getMessage());
+            log_message('error', $th->getMessage());
 
-    //     }
-    //     return (object) array();
+        }
+        return (object) array();
 
-    // }
+    }
+    public function GetByMembershipId(string $membershipId): stdClass
+    {
+        try {
+            $this->db->where("MembershipId", $membershipId);
+           $dbResult =  $this->db->get($this->TableName)->row();
+           if (!empty((array) $dbResult)) {
+              return $dbResult;
+           }
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return (object) array();
+
+    }
     // public function ListByEmail(string $EmailAddress): array
     // {
     //     try {
@@ -223,23 +256,19 @@ class Users extends CI_Model
     //     return 0;
 
     // }
-    // public function ConfirmPassword(string $Password, int $UserId): bool
-    // {
-    //     try {
-    //         $userdata = $this->Get($UserId);
-    //         $token = md5($Password);
-    //         $enteredPassword = hash("sha512", $token . $Password);
-    //         if ($userdata->Password == $enteredPassword) {
-    //             return true;
-    //         }
+    public function ConfirmPassword(string $Password, int $UserId): bool
+    {
+        try {
+            $userdata = $this->Get($UserId);
+           return  password_verify($Password, $userdata->Password);
 
-    //     } catch (\Throwable $th) {
-    //         log_message('error', $th->getMessage());
+        } catch (\Throwable $th) {
+            log_message('error', $th->getMessage());
 
-    //     }
-    //     return false;
+        }
+        return false;
 
-    // }
+    }
 
     public function CheckExist(string $EmailAddress): bool
     {

@@ -78,11 +78,9 @@ class Utilities
     {
         $UserSession = array(
             "UserId" => $UserData->Id,
-            "FullName" => $UserData->FullName,
+            "FullName" => $UserData->Fullname,
             "EmailAddress" => $UserData->EmailAddress,
-            "PhoneNumber" => $UserData->PhoneNumber,
-            "Role" => $UserData->Role,
-            "IsPasswordChanged" => $UserData->IsPasswordChanged,
+            "Membership" => $UserData->Membership,
         );
         return $UserSession;
 
@@ -169,6 +167,14 @@ class Utilities
             return $uuid;
         }
 
+    }
+    public function IsEmail(string $email):bool
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
+          } else {
+           return false;
+          }
     }
     public function AddPropertyToObJect(stdClass $Object, string $Key, $Value): stdClass
     {

@@ -12,146 +12,44 @@ class Emailservices
     public function __construct()
     {
         $this->ci = &get_instance();
-        $this->ci->load->library('html2pdf');
-        $this->ci->load->model('users');
-        $this->ci->load->model('receiptCategories');
-        $this->secondaryLogo = asset_url("images/logoreceipt.png");
-        $this->primaryLogo = asset_url("images/logonew.png");
     }
-    public function processReceiptHtml(stdClass $clientData, stdClass $receiptData): string
+    public function processRegHtml(stdClass $userData): string
     {
         try {
-            $issuedBy = $this->ci->users->GetName($receiptData->CreatedBy);
-            $status = "";
-            $receiptLogo = $this->primaryLogo;
-            $abbreviation = $this->ci->receiptCategories->GetAbbreviation($receiptData->CategoryId);
-            if ($receiptData->TransactionState == "Approved") {
-                $status = asset_url("images/paid.png");
-            } elseif ($receiptData->TransactionState == "Pending") {
-                $status = asset_url("images/pending.jpg");
-            }else{
-                
-                $status = asset_url("images/declined.png");
-            }
-            if ($abbreviation == "eICF") {
-                $receiptLogo = $this->secondaryLogo;
-            }
+           
             $actionReplace = array(
-                '{{ReceiptNumber}}',
-                '{{Name}}',
-                '{{Date}}',
-                '{{Company}}',
-                '{{Address}}',
-                '{{Description}}',
-                '{{Amount}}',
-                '{{PaymentMethod}}',
-                '{{IssuedBy}}',
-                '{{Status}}',
-                '{{PdfUrl}}',
-                '{{PhoneNumber}}',
-                '{{PaymentDetails}}',
-                '{{CheckImage}}',
-                '{{ReceiptLogo}}',
+                '#firstName',
+                '#transactionRef',
+                '#startDate',
+                '#fullAddress',
+                '#expiryDate',
+                '#membershipId',
+                '#loginUrl',
+                '#pdfUrl',
+                '#amountPaid',
             );
+             $nameArray = explode(" ", $userData->Fullname);
+             $fullAddress = "{$userData->Address}<br>{$userData->City}<br>{$userData->State}<br>{$userData->Country}";
             $actionWith = array(
-                $receiptData->ReceiptId,
-                $clientData->FullName,
-                $this->ci->utilities->formatDate($receiptData->DateCreated),
-                $clientData->Company ?? "",
-                $clientData->ResidentialAddress,
-                $receiptData->Description,
-                $this->ci->utilities->FormatAmount($receiptData->Amount, $receiptData->Currency),
-                $receiptData->ModeOfPayment,
-                $issuedBy,
-                $status,
-                $this->proceessReceiptPdf($clientData, $receiptData),
-                $clientData->PhoneNumber,
-                $receiptData->PaymentDetails,
-                asset_url('images/checkmark.jpg'),
-                $receiptLogo,
+                $nameArray[0],
+                strtoupper($userData->TransactionRef),
+                $this->FormatDate($this->ci->utilities->DbTimeFormat()),
+                $fullAddress,
+                $this->AyearfromNow($this->ci->utilities->DbTimeFormat()),
+                strtoupper($userData->MembershipId),
+                base_url("account/login"),
+                $userData->Certificate,
+                number_format($userData->Amount)
             );
-            $actionTemplate = file_get_contents('maitemplate/receipttemplate.html', true);
+            $actionTemplate = file_get_contents('maitemplate/receipt.html', true);
             $mailString = str_replace($actionReplace, $actionWith, $actionTemplate);
-            $this->SetEmailTemplate($mailString, $receiptData->Id);
+           return $mailString;
         } catch (\Throwable $th) {
             log_message('error', $th->getMessage());
         }
         return "";
     }
-    public function proceessReceiptPdf(stdClass $clientData, stdClass $receiptData)
-    {
-        try {
-            $issuedBy = $this->ci->users->GetName($receiptData->CreatedBy);
-            $status = "";
-            $receiptLogo = $this->primaryLogo;
-            $abbreviation = $this->ci->receiptCategories->GetAbbreviation($receiptData->CategoryId);
-            if ($receiptData->TransactionState == "Approved") {
-                $status = asset_url("images/paid.png");
-            } elseif ($receiptData->TransactionState == "Pending") {
-                $status = asset_url("images/pending.jpg");
-            }else{
-                $status = asset_url("images/declined.png");
-            }
-            if ($abbreviation == "eICF") {
-                $receiptLogo = $this->secondaryLogo;
-            }
-            $actionReplace = array(
-                '{{ReceiptNumber}}',
-                '{{Name}}',
-                '{{Date}}',
-                '{{Company}}',
-                '{{Address}}',
-                '{{Description}}',
-                '{{Amount}}',
-                '{{PaymentMethod}}',
-                '{{Status}}',
-                '{{IssuedBy}}',
-                '{{PhoneNumber}}',
-                '{{PaymentDetails}}',
-                '{{CheckImage}}',
-                '{{ReceiptLogo}}',
-            );
-            // $this->load->library('utilities');
-            $actionWith = array(
-                $receiptData->ReceiptId,
-                $clientData->FullName,
-                $this->ci->utilities->formatDate($receiptData->DateCreated),
-                $clientData->Company ?? "",
-                $clientData->ResidentialAddress,
-                $receiptData->Description,
-                $this->ci->utilities->FormatAmount($receiptData->Amount, $receiptData->Currency),
-                $receiptData->ModeOfPayment,
-                $status,
-                $issuedBy,
-                $clientData->PhoneNumber,
-                $receiptData->PaymentDetails,
-                asset_url('images/checkmark.jpg'),
-                $receiptLogo,
-            );
-            $actionTemplate = file_get_contents('maitemplate/receipttemplatepdf.html', true);
-            $mailString = str_replace($actionReplace, $actionWith, $actionTemplate);
-            $this->ci->html2pdf->folder('./assets/pdfs/');
-            $fileName = "receipt-" . $abbreviation . "-" . $receiptData->ReceiptNumber . '.pdf';
-
-            //Set the filename to save/download as
-            $this->ci->html2pdf->filename($fileName);
-
-            //Set the paper defaults
-            $this->ci->html2pdf->paper('a4', 'portrait');
-
-            //Load html view
-            $this->ci->html2pdf->html($mailString);
-
-            if ($this->ci->html2pdf->create('save')) {
-                return asset_url("pdfs/{$fileName}");
-            }
-
-        } catch (\Throwable $th) {
-            log_message('error', $th->getMessage());
-        }
-        return "#";
-
-    }
+   
     public function SetEmailTemplate(string $template, string $receiptId)
     {
         $emailData = array(
@@ -167,8 +65,8 @@ class Emailservices
     public function SendGeneralMail(string $to, string $message, string $name, string $subject)
     {
         // $userData = $this->ci->users->Get($userId);
-        $sourceMail = "no-reply@mapleeducation.ca";
-        $sourceName = 'E-Receipts';
+        $sourceMail = "no-reply@cilscmglobal.org";
+        $sourceName = 'CILSCM Global';
         $subject = $subject;
         $actionReplace = array(
             '{{customerName}}',
@@ -185,8 +83,8 @@ class Emailservices
     }
     public function SendDynamicMail(string $to, string $message, string $subject)
     {
-        $sourceMail = "no-reply@mapleeducation.ca";
-        $sourceName = 'E-receipt';
+        $sourceMail = "no-reply@cilscmglobal.org";
+        $sourceName = 'CILSCM Global';
         $subject = $subject;
         $this->SendMail($sourceMail, $sourceName, $to, $subject, $message);
     }
@@ -224,6 +122,15 @@ class Emailservices
         //close cURL resource
         curl_close($ch);
 
+    }
+    private function FormatDate($date)
+    {
+        return date("d/m/Y" ,strtotime($date));
+    }
+    private function AyearfromNow($startDate)
+    {
+        $futureDate = date("d/m/Y", strtotime('+1 year', strtotime($startDate)));
+        return $futureDate;
     }
 
 }

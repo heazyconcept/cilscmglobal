@@ -16,6 +16,7 @@ class Transactions extends CI_Model {
     private $Membership;
     private $PaidBy;
     private $DateCreated;
+    private $Certificate;
 
     public function Insert(stdClass $transaction): int
     {
@@ -26,6 +27,7 @@ class Transactions extends CI_Model {
                 "Membership" => $transaction->Membership,
                 "PaidBy" => $transaction->PaidBy,
                 "DateCreated" => $this->utilities->DbTimeFormat(),
+                "Certificate" => $transaction->Certificate
             );
             $this->db->insert($this->TableName, $newTransaction);
             return $this->db->insert_id();

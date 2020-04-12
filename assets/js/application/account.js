@@ -147,6 +147,29 @@ $(document).ready(function () {
 
          
      });
+
+     $(".btn-login").click(function () { 
+         var loginData = {LoginId: $("#LoginId").val(), Password: $("#Password").val()};
+         console.log(loginData);
+         
+         $.post(endpoints.login, loginData)
+          .done(data => {
+              console.log(data);
+              try {
+                  response = JSON.parse(data);
+                  if (response.StatusCode == "00") {
+                      location.href = response.RedirectUrl;
+                  } else {
+                      errorMessage(response.StatusMessage);
+                  }
+                  
+              } catch (error) {
+                  console.log(error);
+                  fatalMessage();
+              }
+              
+          })
+      })
    
 
     // var $elem = $(this).closest('div.body').next().find('div.calculationContainer') 

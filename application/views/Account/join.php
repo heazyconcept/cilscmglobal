@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<?php $this->load->library('utilities'); ?>
 <?php $countries = json_decode($this->utilities->GetCountries()); ?>
 <html class="no-js css-menubar" lang="en">
 

@@ -22,6 +22,8 @@ class AccountApi extends CI_Controller
           
             $this->load->model("transactionLogs");
             $this->load->model('transactions');
+            $this->load->library("certificate");
+            $this->load->library("emailservices");
             
             $standardPackage = $this->staticOptions->package_group["Standard"];
             if (in_array($this->request->Membership, $standardPackage)) {
@@ -41,12 +43,17 @@ class AccountApi extends CI_Controller
                     // $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
                     // $userData = $this->utilities->AddPropertyToObJect($userData, "Status", "Active");
                     // $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", "Standard");
+                   
                     $userData = $this->prepareUserData("Active", "Standard");
                     $userId = $this->users->Insert($userData);
                     if ($userId > 0) {
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
+                        $pdfURl = $this->certificate->ProcessCertificate($userData);
+                        $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
                         $modelResponse = $this->transactions->Insert($userData);
                         if ($modelResponse > 0) {
+                            $mailHtml = $this->emailservices->processRegHtml($userData);
+                            $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Certificate");
                             echo $this->utilities->outputMessage("success", "Registration Successful");
                             return;
                         }
@@ -69,6 +76,15 @@ class AccountApi extends CI_Controller
     public function ValidatePackage()
     {
         try {
+            // $lastId = $this->users->GetLastRegNumberByMembership($this->request->Membership);
+            // $newId = (int) $lastId + 1;
+            // echo $newId;
+            // die();
+            $isExists = $this->users->CheckExist($this->request->EmailAddress);
+            if ($isExists) {
+                echo $this->utilities->outputMessage("error", "User already exists");
+                return;
+            }
             $premiumPackage = $this->staticOptions->package_group["Premium"];
             if (in_array($this->request->Membership, $premiumPackage)) {
                $userData = $this->prepareUserData("Pending", "Premium");
@@ -94,23 +110,29 @@ class AccountApi extends CI_Controller
         return;
     }
 
-    public function login()
+    public function Login()
     {
         try {
-            $request = (object) $_POST;
-            $userData = $this->users->GetByEmail($request->EmailAddress);
-            if (empty((array) $userData)) {
-                echo $this->utilities->outputMessage("error", "user does not exist");
-                return;
-            }
-            $isCorrectPassword = $this->users->ConfirmPassword($request->Password, $userData->Id);
-            if (!$isCorrectPassword) {
-                echo $this->utilities->outputMessage("error", "your password is incorrect");
-                return;
-            }
+          
+            $isEmail = $this->utilities->IsEmail($this->request->LoginId);
+             if ($isEmail) {
+                 $userData = $this->users->GetByEmail($this->request->LoginId);
+             }else {
+                 $userData = $this->users->GetByMembershipId($this->request->LoginId);
+             }
+             if (empty((array) $userData)) {
+                 echo $this->utilities->outputMessage("error", "User Does not Exist");
+                 return;
+             }
+             $passwordCorrect = $this->users->ConfirmPassword($this->request->Password, $userData->Id);
+             if (!$passwordCorrect) {
+                 echo $this->utilities->outputMessage("error", "Password is incorrect");
+                 return;
+             }
+           
             $userSession = $this->utilities->PrepareUserSession($userData);
             $this->utilities->SetSession($userSession);
-            echo $this->utilities->outputMessage("success", "Login Successful", base_url('Admin/dashboard'));
+            echo $this->utilities->outputMessage("success", "Login Successful", base_url('user/dashboard'));
             return;
         } catch (\Throwable $th) {
             $this->utilities->LogError($th);
@@ -191,12 +213,27 @@ class AccountApi extends CI_Controller
             $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
             $userData = $this->utilities->AddPropertyToObJect($userData, "Status", $status);
             $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", $membershipGroup);
+            $this->load->library("utilities");
+            if ($membershipGroup == "Standard") {
+                $lastId = $this->users->GetLastRegNumberByMembership($this->request->Membership);
+                $newId = (int) $lastId + 1;
+                $membershipId = $this->GenerateMembershipId($newId,$this->request->Membership);
+                $userData = $this->utilities->AddPropertyToObJect($userData, "RegNumber", $newId);
+                $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipId", $membershipId);
+            }
             return $userData;
         } catch (\Throwable $th) {
            $this->utilities->LogError($th);
         }
         return (object) array();
 
+    }
+    public function GenerateMembershipId(int $regNumber, string $membership)
+    {
+       $number =   str_pad($regNumber,  4, "000",STR_PAD_LEFT);
+       $prefix = substr($membership, 0, 2);
+       $foo = uniqid();
+       return "{$prefix}-{$foo}{$number}";
     }
 
 }

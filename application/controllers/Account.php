@@ -17,8 +17,8 @@ class Account extends CI_Controller
     // }
     public function login()
     {
-        $this->utilities->SetPageTitle("Login - ");
-        $this->load->view('Account/Partials/login');
+        $this->utilities->SetPageTitle("Login - CILSCM");
+        $this->load->view('Account/login');
     }
     public function register()
     {
