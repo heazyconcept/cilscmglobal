@@ -155,6 +155,51 @@ label {
     color:var(--site-primary-color);
 
 }
+.page {
+    background: #f1f1f1;
+}
+.user-sidebar {
+    background: var(--site-primary-color);
+    padding: 20px;
+}
+.member-image{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+h4.account-name {
+    color: #fff;
+    font-size: 21px;
+}
+.member-membership {
+    margin-top: 20px;
+}
+.member-membership h4 {
+    color: white;
+    font-size: 15px;
+}
+.btn-pri-design {
+    background: #ca0606!important;
+    border-color: #ca0606!important;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.btn-pri-design:hover , .btn-pri-design:focus, .btn-pri-design:active{
+    background: #000!important;
+    border-color: #000!important;
+    
+}
+.certificate-wrapper .example{
+    margin-top: 0;
+}
+.user-eq-height{
+    min-height: 300px;
+}
 @media(max-width:768px){
     .site-navbar .navbar-header .navbar-brand-logo {
         height: 65px;
