@@ -44,6 +44,18 @@ class GeneralApi extends CI_Controller {
         echo $this->utilities->outputMessage("error", "your request cannot be processed at this moment. Please try again later");
         
     }
+    public function GeneratePDF()
+    {
+        $this->load->library("certificate");
+        $userData = array(
+            "Fullname" => "Fadipe Ezekiel Olubola",
+            "MembershipId" => "ST-0002",
+            "DateCreated" => $this->utilities->DbTimeFormat()
+
+        );
+      $url =   $this->certificate->ProcessCertificate((object) $userData);
+      echo $url;
+    }
 
 }
 

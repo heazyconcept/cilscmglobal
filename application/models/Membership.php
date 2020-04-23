@@ -12,6 +12,9 @@ class Membership extends CI_Model {
     }
     private $Membership;
     private $Amount;
+    private $Group;
+    private $Template;
+    private $Orientation;
 
     public function GetMembership(string $membershipName): stdClass
     {

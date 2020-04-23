@@ -216,7 +216,7 @@ class Utilities
             $config['max_size'] = 10000;
             $this->ci->load->library('upload', $config);
             if (!$this->ci->upload->do_upload($UploadName)) {
-                $error = array('error' => $this->upload->display_errors());
+                $error = array('error' => $this->ci->upload->display_errors());
                 $foo = json_encode($error);
                 log_message('error',$foo);
                 return '';

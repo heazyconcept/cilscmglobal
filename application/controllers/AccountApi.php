@@ -22,6 +22,7 @@ class AccountApi extends CI_Controller
           
             $this->load->model("transactionLogs");
             $this->load->model('transactions');
+            $this->load->model('membership');
             $this->load->library("certificate");
             $this->load->library("emailservices");
             
@@ -29,26 +30,13 @@ class AccountApi extends CI_Controller
             if (in_array($this->request->Membership, $standardPackage)) {
                 $logResponse = $this->transactionLogs->Insert($this->request);
                 if ($logResponse > 0) {
-                    // $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
-                    // $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
-                    // $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
-                    // $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
-                    // $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
-                    // $Resume = $this->utilities->UploadFile("Resume", "Certificates");
-                    // $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "UniversityCert", $UniversityCert);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "OtherCert", $OtherCert);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "Status", "Active");
-                    // $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", "Standard");
                    
                     $userData = $this->prepareUserData("Active", "Standard");
                     $userId = $this->users->Insert($userData);
                     if ($userId > 0) {
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
-                        $pdfURl = $this->certificate->ProcessCertificate($userData);
+                        $membershipData = $this->membership->GetMembership($this->request->Membership);
+                        $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
                         $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
                         $modelResponse = $this->transactions->Insert($userData);
                         if ($modelResponse > 0) {
@@ -233,7 +221,7 @@ class AccountApi extends CI_Controller
        $number =   str_pad($regNumber,  4, "000",STR_PAD_LEFT);
        $prefix = substr($membership, 0, 2);
        $foo = uniqid();
-       return "{$prefix}-{$foo}{$number}";
+       return "{$prefix}-{$number}";
     }
 
 }
