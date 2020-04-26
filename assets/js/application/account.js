@@ -1,7 +1,7 @@
-var paystackKey;
+// var paystackKey;
 var transactionRef
 $(document).ready(function () {
-    GetPaymentKey();
+    paystackKey =    GetPaymentKey();
     var userDetails = {
         regState: "step-one",
         State: "",
@@ -255,22 +255,3 @@ function  ValidatePackage(initialStage, sessionData) {
     });
     
  }
-function GetPaymentKey(){
-    $.post(endpoints.paymentKey)
-    .done(data => {
-        console.log(data);
-        try {
-            response = JSON.parse(data);
-            if (response.StatusCode == "00") {
-                paystackKey = response.StatusMessage;
-            }
-        } catch (error) {
-            console.log(error);
-            fatalMessage();
-        }
-    })
-    .fail(err =>{
-        console.log(err);
-        fatalMessage();
-    })
-}

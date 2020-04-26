@@ -127,6 +127,43 @@ class AccountApi extends CI_Controller
         echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
         return;
     }
+    public function MakePayment()
+    {
+        try {
+            $this->load->model("transactionLogs");
+            $this->load->model('transactions');
+            $this->load->model('membership');
+            $this->load->model('payments');
+            $this->load->library("certificate");
+            $logResponse = $this->transactionLogs->Insert($this->request);
+            if ($logResponse > 0) {
+                $userData = $this->users->Get($this->request->UserId);
+                $PaymentData = $this->payments->GetByCode($this->request->PaymentCode);
+                $membershipData = $this->membership->GetMembership($userData->Membership);
+                $cert = $this->certificate->ProcessCertificate($userData, $membershipData);
+                $tranData = $this->utilities->AddPropertyToObJect($this->request, "Certificate", $cert);
+                $tranData = $this->utilities->AddPropertyToObJect($tranData, "PaidBy", $this->request->UserId);
+                $tranData = $this->utilities->AddPropertyToObJect($tranData, "Membership", $userData->Membership);
+                $tranResponse = $this->transactions->Insert($tranData);
+                if ($tranResponse > 0) {
+                    $this->users->UpdateStatus($this->request->UserId, "Active");
+                    $this->payments->UpdateStatus($this->request->PaymentCode, "Paid");
+                    $message = "<p>Your payment is successfull</p><p>Please <a href ='{$cert}' target ='_blank'> Click Here </a> to download your certificate</p>";
+                    $this->emailservices->SendGeneralMail($userData->EmailAddress, $message, $userData->Fullname, "Payment Successful");
+                    echo $this->utilities->SuccessMessage("Payment Successful. Please check you mail to download your certificate");
+                    return;
+                }
+
+            }
+           
+        } catch (\Throwable $th) {
+           $this->utilities->LogError($th);
+           echo $this->utilities->FatalMessage();
+           return;
+        }
+        echo $this->utilities->GenericErrorMessage();
+        return;
+    }
     public function AdminLogin()
     {
         try {

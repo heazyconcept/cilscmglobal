@@ -19,7 +19,7 @@ $(document).ready(function () {
             { "data": "Membership" },
             { "data": "Status" },
             { "data": "EmailAddress" },
-            { "data": "DOB" },
+            { "data": "DOB", "width": "200px" },
             { "data": "Address" },
             { "data": "Olevel" },
             { "data": "SecSchool" },
@@ -30,9 +30,13 @@ $(document).ready(function () {
             { "data": "Action" }
 
         ],
+        "columnDefs": [
+            { width: 200, targets: 5 }
+        ],
 
     });
-
+    document.getElementById()
+    
     $(".nav-link").click(function () {
         memberName = $(this).data("name");
         console.log(memberName);

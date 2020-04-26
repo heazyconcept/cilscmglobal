@@ -1,10 +1,11 @@
+var paystackKey;
 function AjaxInit(URL, Data, isRedirect = false, isSelfRedirect = false, showNotification = false) {
     $.ajax({
         url: URL,
         data: Data,
         type: 'POST',
         success: function (resp) {
-          
+          console.log(resp);
             try {
                 var Response = JSON.parse(resp);
                 if (Response.StatusCode == "00") {
@@ -124,4 +125,23 @@ function fatalMessage() {
 }
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function GetPaymentKey(){
+    $.post(endpoints.paymentKey)
+    .done(data => {
+        console.log(data);
+        try {
+            response = JSON.parse(data);
+            if (response.StatusCode == "00") {
+                 paystackKey = response.StatusMessage;
+            }
+        } catch (error) {
+            console.log(error);
+            fatalMessage();
+        }
+    })
+    .fail(err =>{
+        console.log(err);
+        fatalMessage();
+    })
 }

@@ -15,3 +15,13 @@
 .nav-link:hover{
     cursor: pointer;
 }
+.table-responsive{
+    display: block;
+    min-width: 100%;
+}
+.member-table th{
+    min-width: 150px!important;
+}
+.transaction-table th{
+    min-width: 175px!important;
+}

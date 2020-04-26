@@ -6,6 +6,7 @@
         validatePackage:  "<?php echo base_url('accountApi/ValidatePackage'); ?>",
         login:  "<?php echo base_url('accountApi/Login'); ?>",
         adminLogin:  "<?php echo base_url('accountApi/AdminLogin'); ?>",
+        makePayment: "<?php echo base_url('accountApi/MakePayment'); ?>",
         admin:{
             viewMembership:  "<?php echo base_url('adminApi/ViewMembership'); ?>",
             approveMember: "<?php echo base_url('adminApi/ApproveMember/'); ?>",

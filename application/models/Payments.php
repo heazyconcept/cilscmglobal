@@ -32,15 +32,28 @@ class Payments extends CI_Model {
         return 0;
     }
 
-    public function GetMembership(string $membershipName): stdClass
+    public function GetByCode(string $paymentCode): stdClass
     {
         try {
-            $this->db->where("Membership", $membershipName);
+            $this->db->where("PaymentCode", $paymentCode);
             return $this->db->get($this->TableName)->row();
         } catch (\Throwable $th) {
             $this->utilities->LogError($th);
         }
         return (object) array();
+    }
+    public function UpdateStatus(string $paymentCode, string $status): int
+    {
+        try {
+            $this->db->set("PaymentStatus", $status);
+            $this->db->where("PaymentCode", $paymentCode);
+           $this->db->update($this->TableName);
+           return $this->db->affected_rows();
+
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+        }
+        return 0;
     }
     public function LIstAll(): array
     {
