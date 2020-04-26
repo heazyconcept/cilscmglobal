@@ -170,6 +170,28 @@ $(document).ready(function () {
               
           })
       })
+      $(".btn-login-admin").click(function () { 
+        var loginData = {EmailAddress: $("#LoginId").val(), Password: $("#Password").val()};
+        console.log(loginData);
+        
+        $.post(endpoints.adminLogin, loginData)
+         .done(data => {
+             console.log(data);
+             try {
+                 response = JSON.parse(data);
+                 if (response.StatusCode == "00") {
+                     location.href = response.RedirectUrl;
+                 } else {
+                     errorMessage(response.StatusMessage);
+                 }
+                 
+             } catch (error) {
+                 console.log(error);
+                 fatalMessage();
+             }
+             
+         })
+     })
    
 
     // var $elem = $(this).closest('div.body').next().find('div.calculationContainer') 

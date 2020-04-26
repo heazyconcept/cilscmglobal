@@ -190,6 +190,7 @@ class Users extends CI_Model
         return (object) array();
 
     }
+
     public function GetByMembershipId(string $membershipId): stdClass
     {
         try {
@@ -206,6 +207,21 @@ class Users extends CI_Model
         }
         return (object) array();
 
+    }
+    public function UpdateStatus(int $userId, string $Status):bool
+    {
+        try {
+           $this->db->set("Status", $Status);
+           $this->db->where("Id", $userId);
+           $this->db->update($this->TableName);
+           $affectedRows = $this->db->affected_rows();
+           if ($affectedRows > 0) {
+                return true;
+           }
+        } catch (\Throwable $th) {
+          $this->utilities->LogError($th);
+        }
+        return false;
     }
     // public function ListByEmail(string $EmailAddress): array
     // {
@@ -310,76 +326,116 @@ class Users extends CI_Model
     //     return 0;
 
     // }
-    // public function ListAll(int $limit = 0, int $start = 0, array $targets = array()): array
-    // {
-    //     try {
+    public function ListAll(int $limit = 0, int $start = 0, array $targets = array()): array
+    {
+        try {
+           if (!empty($limit)) {
+               $this->db->limit($limit);
+           }
+           if (!empty($start)) {
+               $this->db->offset($start);
+           }
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $dbResult = $this->db->get($this->TableName)->result();
+           return $dbResult;
 
-    //         if (empty($targets)) {
-    //             if (empty($limit) && empty($start)) {
-    //                 $dbOptions = array(
-    //                     "table_name" => $this->TableName,
-    //                 );
-    //             } else {
+        } catch (\Throwable $th) {
 
-    //                 if (empty($limit)) {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "offset" => $start,
-    //                     );
-    //                 } elseif (empty($start)) {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "limit" => $limit,
-    //                     );
-    //                 } else {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "limit" => $limit,
-    //                         "offset" => $start,
-    //                     );
-    //                 }
-    //             }
-    //         } else {
-    //             if (empty($limit) && empty($start)) {
-    //                 $dbOptions = array(
-    //                     "table_name" => $this->TableName,
-    //                     "targets" => (object) $targets,
-    //                 );
-    //             } else {
+            log_message('error', $th->getMessage());
 
-    //                 if (empty($limit)) {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "offset" => $start,
-    //                         "targets" => (object) $targets,
-    //                     );
-    //                 } elseif (empty($start)) {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "limit" => $limit,
-    //                         "targets" => (object) $targets,
-    //                     );
-    //                 } else {
-    //                     $dbOptions = array(
-    //                         "table_name" => $this->TableName,
-    //                         "limit" => $limit,
-    //                         "offset" => $start,
-    //                         "targets" => (object) $targets,
-    //                     );
-    //                 }
-    //             }
-    //         }
-    //         $dbResult = $this->connectDb->select_data((object) $dbOptions);
-    //         return $dbResult;
+        }
+        return array();
 
-    //     } catch (\Throwable $th) {
+    }
+    public function CountAll(array $targets = array()): int
+    {
+        try {
+          
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $dbResult = $this->db->get($this->TableName)->num_rows();
+           return $dbResult;
 
-    //         log_message('error', $th->getMessage());
+        } catch (\Throwable $th) {
 
-    //     }
-    //     return array();
+            log_message('error', $th->getMessage());
 
-    // }
+        }
+        return 0;
+
+    }
+    public function SearchAll(string $search, int $limit = 0, int $start = 0, array $targets = array()): array
+    {
+        try {
+           if (!empty($limit)) {
+               $this->db->limit($limit);
+           }
+           if (!empty($start)) {
+               $this->db->offset($start);
+           }
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $searchArray = array(
+               "Fullname" => $search,
+               "MembershipId" => $search,
+               "EmailAddress" => $search,
+           );
+           $this->db->like($searchArray);
+           $dbResult = $this->db->get($this->TableName)->result();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return array();
+
+    }
+    public function CountSearch(string $search,array $targets = array()): int
+    {
+        try {
+          
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $searchArray = array(
+            "Fullname" => $search,
+            "MembershipId" => $search,
+            "EmailAddress" => $search,
+        );
+        $this->db->like($searchArray);
+           $dbResult = $this->db->get($this->TableName)->num_rows();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return 0;
+
+    }
     // public function SearchUser(int $limit = 0, int $start = 0, string $SearchParam, $Targets = array()): array
     // {
 

@@ -55,6 +55,43 @@ class Utilities
         return json_encode($output);
 
     }
+    public function SuccessMessage($message = "", $redirectURL = "")
+    {
+        $output = array(
+            "StatusCode" => "00",
+            "StatusMessage" => $message,
+            "RedirectUrl" => $redirectURL,
+        );
+        return json_encode($output);
+
+    }
+    public function ErrorMessage($message = "")
+    {
+        $output = array(
+            "StatusCode" => "00",
+            "StatusMessage" => $message,
+        );
+        return json_encode($output);
+
+    }
+    public function GenericErrorMessage()
+    {
+        $output = array(
+            "StatusCode" => "00",
+            "StatusMessage" => "Your request cannot be processed at this moment. Please try again later",
+        );
+        return json_encode($output);
+
+    }
+    public function FatalMessage()
+    {
+        $output = array(
+            "StatusCode" => "99",
+            "StatusMessage" => 'Internal server error',
+        );
+        return json_encode($output);
+
+    }
     public function UpdateRequestId($reqId)
     {
         $requestId = $this->GenerateUniqueNumber() . $reqId;
@@ -81,6 +118,18 @@ class Utilities
             "FullName" => $UserData->Fullname,
             "EmailAddress" => $UserData->EmailAddress,
             "Membership" => $UserData->Membership,
+        );
+        return $UserSession;
+
+    }
+    public function PrepareAdminSession(stdClass $UserData): array
+    {
+        $UserSession = array(
+            "UserId" => $UserData->Id,
+            "FullName" => $UserData->Fullname,
+            "EmailAddress" => $UserData->EmailAddress,
+            "PhoneNumber" => $UserData->PhoneNumber,
+            "Role" => "admin",
         );
         return $UserSession;
 

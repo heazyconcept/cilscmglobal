@@ -1,0 +1,17 @@
+.site-navbar .navbar-header .navbar-brand-logo {
+    height: 60px;
+    position: relative;
+    top: -14px;
+}
+.dataTables_filter{
+    float: right;
+}
+.table td{
+    vertical-align: middle!important;
+}
+.pagination{
+    float: right;
+}
+.nav-link:hover{
+    cursor: pointer;
+}

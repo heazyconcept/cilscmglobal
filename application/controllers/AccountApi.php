@@ -11,6 +11,7 @@ class AccountApi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('users');
+        $this->load->library("emailservices");
         $this->request = (object) $_POST;
         $this->config->load('options', true);
         $this->staticOptions = (object) $this->config->item('options');
@@ -24,7 +25,7 @@ class AccountApi extends CI_Controller
             $this->load->model('transactions');
             $this->load->model('membership');
             $this->load->library("certificate");
-            $this->load->library("emailservices");
+           
             
             $standardPackage = $this->staticOptions->package_group["Standard"];
             if (in_array($this->request->Membership, $standardPackage)) {
@@ -36,12 +37,14 @@ class AccountApi extends CI_Controller
                     if ($userId > 0) {
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
                         $membershipData = $this->membership->GetMembership($this->request->Membership);
-                        $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
-                        $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
+                        if (!empty($membershipData->Template)) {
+                            $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
+                            $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
+                        }
                         $modelResponse = $this->transactions->Insert($userData);
                         if ($modelResponse > 0) {
-                            $mailHtml = $this->emailservices->processRegHtml($userData);
-                            $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Certificate");
+                            $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
+                            $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
                             echo $this->utilities->outputMessage("success", "Registration Successful");
                             return;
                         }
@@ -78,6 +81,9 @@ class AccountApi extends CI_Controller
                $userData = $this->prepareUserData("Pending", "Premium");
                 $userId = $this->users->Insert($userData);
                 if ($userId > 0) {
+                    $membershipData = $this->membership->GetMembership($this->request->Membership);
+                    $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
+                    $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
                    $message = "premium;Congratulations! Your registration is successful. Kindly exercise Patience while we verify your details";
                    echo $this->utilities->outputMessage("success", $message);
                    return;
@@ -95,6 +101,58 @@ class AccountApi extends CI_Controller
             return;
         }
         echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
+        return;
+    }
+    public function RegisterAdmin()
+    {
+        try {
+            $this->load->model("admin");
+           $isExists = $this->admin->CheckExist($this->request->EmailAddress);
+           if ($isExists) {
+               echo $this->utilities->outputMessage("error", "User already exists");
+               return;
+           }
+           $userData = $this->utilities->AddPropertyToObJect($this->request,"Status", "Active");
+           $userData = $this->utilities->AddPropertyToObJect($userData, "IsPasswordChanged", false);
+           $modelResponse = $this->admin->Insert($userData);
+           if ($modelResponse > 0) {
+               echo $this->utilities->outputMessage("success", "User registered successfully");
+               return;
+           }
+        }catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+            echo $this->utilities->outputMessage("fatal");
+            return;
+        }
+        echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
+        return;
+    }
+    public function AdminLogin()
+    {
+        try {
+            $this->load->model("admin");
+            $adminData = $this->admin->GetByEmail($this->request->EmailAddress);
+            if (empty((array) $adminData)) {
+                echo $this->utilities->outputMessage("error", "User does not exist");
+                return;
+            }
+            $passwordCorrect = $this->admin->ConfirmPassword($this->request->Password, $adminData->Id);
+            if (!$passwordCorrect) {
+                echo $this->utilities->outputMessage("error", "Invalid password");
+                return;
+            }
+            $adminSession = $this->utilities->PrepareAdminSession($adminData);
+            $this->utilities->SetSession($adminSession);
+            $url = base_url("admins/dashboard");
+            echo $this->utilities->SuccessMessage("", $url);
+            return;
+
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+            echo $this->utilities->FatalMessage();
+            return;
+        }
+        echo $this->utilities->GenericErrorMessage();
         return;
     }
 
@@ -201,14 +259,11 @@ class AccountApi extends CI_Controller
             $userData = $this->utilities->AddPropertyToObJect($userData, "Resume", $Resume);
             $userData = $this->utilities->AddPropertyToObJect($userData, "Status", $status);
             $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipGroup", $membershipGroup);
-            $this->load->library("utilities");
-            if ($membershipGroup == "Standard") {
                 $lastId = $this->users->GetLastRegNumberByMembership($this->request->Membership);
                 $newId = (int) $lastId + 1;
                 $membershipId = $this->GenerateMembershipId($newId,$this->request->Membership);
                 $userData = $this->utilities->AddPropertyToObJect($userData, "RegNumber", $newId);
                 $userData = $this->utilities->AddPropertyToObJect($userData, "MembershipId", $membershipId);
-            }
             return $userData;
         } catch (\Throwable $th) {
            $this->utilities->LogError($th);

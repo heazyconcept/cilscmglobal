@@ -13,35 +13,79 @@ class Emailservices
     {
         $this->ci = &get_instance();
     }
-    public function processRegHtml(stdClass $userData): string
+    public function processRegHtml(stdClass $userData, string $template): string
     {
         try {
            
             $actionReplace = array(
-                '#firstName',
-                '#transactionRef',
-                '#startDate',
-                '#fullAddress',
-                '#expiryDate',
+                '#date',
+                '#fullName',
+                '#address',
                 '#membershipId',
-                '#loginUrl',
-                '#pdfUrl',
-                '#amountPaid',
             );
              $nameArray = explode(" ", $userData->Fullname);
              $fullAddress = "{$userData->Address}<br>{$userData->City}<br>{$userData->State}<br>{$userData->Country}";
             $actionWith = array(
-                $nameArray[0],
-                strtoupper($userData->TransactionRef),
                 $this->FormatDate($this->ci->utilities->DbTimeFormat()),
+                $userData->Fullname,
                 $fullAddress,
-                $this->AyearfromNow($this->ci->utilities->DbTimeFormat()),
-                strtoupper($userData->MembershipId),
-                base_url("account/login"),
-                $userData->Certificate,
-                number_format($userData->Amount)
+                $userData->MembershipId,
             );
-            $actionTemplate = file_get_contents('maitemplate/receipt.html', true);
+            $actionTemplate = file_get_contents("maitemplate/{$template}", true);
+            $mailString = str_replace($actionReplace, $actionWith, $actionTemplate);
+           return $mailString;
+        } catch (\Throwable $th) {
+            log_message('error', $th->getMessage());
+        }
+        return "";
+    }
+    public function processApprovalHtml(stdClass $userData, string $template, string $paymentLink): string
+    {
+        try {
+           
+            $actionReplace = array(
+                '#date',
+                '#fullName',
+                '#address',
+                '#membershipId',
+                "#paymentLink"
+            );
+             $nameArray = explode(" ", $userData->Fullname);
+             $fullAddress = "{$userData->Address}<br>{$userData->City}<br>{$userData->State}<br>{$userData->Country}";
+            $actionWith = array(
+                $this->FormatDate($this->ci->utilities->DbTimeFormat()),
+                $userData->Fullname,
+                $fullAddress,
+                $userData->MembershipId,
+                "<a href='{$paymentLink}' target='_blank'>CLICK HERE </a> "
+            );
+            $actionTemplate = file_get_contents("maitemplate/{$template}", true);
+            $mailString = str_replace($actionReplace, $actionWith, $actionTemplate);
+           return $mailString;
+        } catch (\Throwable $th) {
+            log_message('error', $th->getMessage());
+        }
+        return "";
+    }
+    public function processRejHtml(stdClass $userData): string
+    {
+        try {
+           
+            $actionReplace = array(
+                '#date',
+                '#fullName',
+                '#address',
+                '#membershipId',
+            );
+             $nameArray = explode(" ", $userData->Fullname);
+             $fullAddress = "{$userData->Address}<br>{$userData->City}<br>{$userData->State}<br>{$userData->Country}";
+            $actionWith = array(
+                $this->FormatDate($this->ci->utilities->DbTimeFormat()),
+                $userData->Fullname,
+                $fullAddress,
+                $userData->MembershipId,
+            );
+            $actionTemplate = file_get_contents("maitemplate/notapproved.html", true);
             $mailString = str_replace($actionReplace, $actionWith, $actionTemplate);
            return $mailString;
         } catch (\Throwable $th) {
@@ -125,7 +169,7 @@ class Emailservices
     }
     private function FormatDate($date)
     {
-        return date("d/m/Y" ,strtotime($date));
+        return date("jS F, Y" ,strtotime($date));
     }
     private function AyearfromNow($startDate)
     {

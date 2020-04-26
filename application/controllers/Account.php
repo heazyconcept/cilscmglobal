@@ -15,10 +15,15 @@ class Account extends CI_Controller
     // {
     //     print_r($_REQUEST);
     // }
-    public function login()
+    public function login($userType = "user")
     {
         $this->utilities->SetPageTitle("Login - CILSCM");
-        $this->load->view('Account/login');
+        if ($userType == "admin") {
+            $this->load->view('Account/adminlogin');
+        }else {
+            $this->load->view('Account/login');
+        }
+       
     }
     public function register()
     {

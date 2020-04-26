@@ -13,9 +13,9 @@
       </button>
       <a class="navbar-brand navbar-brand-center" href="<?php echo base_url(); ?>">
         <img class="navbar-brand-logo navbar-brand-logo-normal" src="https://www.cilscmglobal.org/wp-content/uploads/2018/06/cilscm_logo.png"
-          title="Remark">
+          title="cilscmglobal">
         <img class="navbar-brand-logo navbar-brand-logo-special" src="https://www.cilscmglobal.org/wp-content/uploads/2018/06/cilscm_logo.png"
-          title="Remark">
+          title="cilscmglobal">
       </a>
     
     </div>

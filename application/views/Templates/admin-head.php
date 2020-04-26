@@ -25,23 +25,12 @@
   <link rel="stylesheet" href="<?php echo asset_url('vendor/slidepanel/slidePanel.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/flag-icon-css/flag-icon.min599c.css?v4.0.2') ?>">
 
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-bs4/dataTables.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-fixedcolumns-bs4/dataTables.fixedcolumns.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-rowgroup-bs4/dataTables.rowgroup.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.min599c.css?v4.0.2') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.min599c.css?v4.0.2') ?>">
-
-  <link rel="stylesheet" href="<?php echo asset_url('examples/css/tables/datatable.min599c.css?v4.0.2') ?>">
-
   <!-- Fonts -->
   <link rel="stylesheet" href="<?php echo asset_url('fonts/web-icons/web-icons.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('fonts/brand-icons/brand-icons.min599c.css?v4.0.2') ?>">
   <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">
   <link rel="stylesheet" href="<?php echo asset_url('css/loading.css') ?>">
-  <link rel="stylesheet" href="<?php echo asset_url('css/extras.css') ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('css/admin-extras.css') ?>">
 
   <!--[if lt IE 9]>
     <script src="<?php echo asset_url('vendor/html5shiv/html5shiv.min.js?v4.0.2') ?>"></script>

@@ -13,6 +13,21 @@
   <script src="<?php echo asset_url('vendor/screenfull/screenfull599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/slidepanel/jquery-slidePanel.min599c.js?v4.0.2') ?>"></script>
 
+  <script src="<?php echo asset_url('vendor/datatables.net/jquery.dataTables599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-bs4/dataTables.bootstrap4599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-fixedheader/dataTables.fixedHeader.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-fixedcolumns/dataTables.fixedColumns.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-rowgroup/dataTables.rowGroup.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-scroller/dataTables.scroller.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-responsive/dataTables.responsive.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-responsive-bs4/responsive.bootstrap4.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons/dataTables.buttons.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons/buttons.html5.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons/buttons.flash.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons/buttons.print.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons/buttons.colVis.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('vendor/datatables.net-buttons-bs4/buttons.bootstrap4.min599c.js?v4.0.2') ?>"></script>
+
   <!-- Scripts -->
   <script src="<?php echo asset_url('js/Component.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin.min599c.js?v4.0.2') ?>"></script>
@@ -36,6 +51,7 @@
   <script src="<?php echo asset_url('js/Plugin/asscrollable.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/slidepanel.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin/switchery.min599c.js?v4.0.2') ?>"></script>
+  <script src="<?php echo asset_url('js/Plugin/datatables.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/loading.js') ?>"></script>
   <script src="<?php echo asset_url('js/custom.js') ?>"></script>
 

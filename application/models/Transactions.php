@@ -27,7 +27,7 @@ class Transactions extends CI_Model {
                 "Membership" => $transaction->Membership,
                 "PaidBy" => $transaction->PaidBy,
                 "DateCreated" => $this->utilities->DbTimeFormat(),
-                "Certificate" => $transaction->Certificate
+                "Certificate" => $transaction->Certificate?? ""
             );
             $this->db->insert($this->TableName, $newTransaction);
             return $this->db->insert_id();

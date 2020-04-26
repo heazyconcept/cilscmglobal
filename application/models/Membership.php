@@ -26,6 +26,15 @@ class Membership extends CI_Model {
         }
         return (object) array();
     }
+    public function LIstAll(): array
+    {
+        try {
+            return $this->db->get($this->TableName)->result();
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+        }
+        return array();
+    }
 
 }
 
