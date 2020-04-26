@@ -17,7 +17,7 @@ class Utilities
     }
     public function DateFormat($date)
     {
-        return date("F j, Y", strtotime($date));
+        return date("jS F, Y", strtotime($date));
     }
     public function DbTimeFormat()
     {
@@ -299,8 +299,11 @@ class Utilities
         base_url('upload/profile_pic/' . $UserImage);
         return $imageUrl;
     }
-    public function FormatAmount(float $amount, string $currency)
+    public function FormatAmount(float $amount, string $currency = "")
     {
+        if (empty($currency)) {
+            $currency = $this->Currency();
+        }
         return $currency . number_format($amount, 2);
     }
     public function CreateSlug(string $String): string

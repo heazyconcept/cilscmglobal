@@ -9,7 +9,8 @@
         admin:{
             viewMembership:  "<?php echo base_url('adminApi/ViewMembership'); ?>",
             approveMember: "<?php echo base_url('adminApi/ApproveMember/'); ?>",
-            rejectMember: "<?php echo base_url('adminApi/RejectMember/'); ?>"
+            rejectMember: "<?php echo base_url('adminApi/RejectMember/'); ?>",
+            viewTransactions: "<?php echo base_url('adminApi/ViewTransactions'); ?>"
         } ,
     }
 </script>

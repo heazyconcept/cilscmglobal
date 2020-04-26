@@ -149,6 +149,59 @@ class AdminApi extends CI_Controller
         echo $this->utilities->GenericErrorMessage();
         return;
     }
+    public function ViewTransactions()
+    {
+        $this->load->model('transactionReport');
+        $Result = array();
+        $data = array();
+        $totalData = 0;
+        $totalFiltered = 0;
+        $targets = array();
+
+        try {
+
+            $limit = $this->input->get('length') ?? 0;
+            $start = $this->input->get('start') ?? 0;
+          
+            $totalData = $this->transactionReport->CountAll();
+            $totalFiltered = $totalData;
+            if (empty($this->input->get('search')['value'])) {
+               
+                $Result = $this->transactionReport->ListAll($limit, $start);
+            } else {
+                $search = $this->input->get('search')['value'];
+                $Result = $this->transactionReport->SearchAll($search, $limit, $start);
+                $totalFiltered = $this->transactionReport->CountSearch($search);
+            }
+            if (!empty($Result)) {
+
+                foreach ($Result as $obj) {
+                    $nestedData['TransactionRef'] = $obj->TransactionRef;
+                    $nestedData['Amount'] = $this->utilities->FormatAmount($obj->Amount); 
+                    $nestedData['TransactionDate'] = $this->utilities->DateFormat($obj->DateCreated);
+                    $nestedData['FullName'] = $obj->Fullname;
+                    $nestedData['EmailAddress'] = $obj->EmailAddress;
+                    $nestedData['MembershipId'] = $obj->MembershipId;
+                    $nestedData['Certificate'] = (empty($obj->Certificate))?"N/A" : "<a href='{$obj->Certificate}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>" ;
+                    $data[] = $nestedData;
+
+                }
+
+            }
+
+        } catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+        }
+        $json_data = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data,
+        );
+
+        echo json_encode($json_data);
+
+    }
     // public function GetReportCSV()
     // {
     //     try {

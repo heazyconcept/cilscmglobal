@@ -86,7 +86,7 @@
            
             
              <li class="site-menu-item ">
-              <a  href="<?php echo base_url('Admin/transactions'); ?>" >
+              <a  href="<?php echo base_url('admins/transactions'); ?>" >
                         <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
                         <span class="site-menu-title">Transactions</span>
                     </a>

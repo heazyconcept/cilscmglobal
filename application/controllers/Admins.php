@@ -25,11 +25,16 @@ class Admins extends CI_Controller
     }
     public function membership($member = "all")
     {
+        $this->utilities->SetPageTitle("Membership - CILSCM");
         $data["member"] = $member;
         $data["allMembership"] = $this->membership->LIstAll();
         $this->load->view('Admin/membership', $data);
     }
-  
+    public function transactions()
+    {
+        $this->utilities->SetPageTitle("Transactions - CILSCM");
+        $this->load->view('Admin/transactions');
+    }
 
     private function ConfirmSession()
     {
