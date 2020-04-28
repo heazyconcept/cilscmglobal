@@ -134,8 +134,8 @@ label {
     width: 30%;
 }
 .pricing-column-three {
-    min-height: 620px;
-    max-height: 620px;
+    min-height: 710px;
+    max-height: 710px;
 }
 .btn-login, .btn-login:active, .btn-login:focus {
     background: var(--site-primary-color);
@@ -200,6 +200,18 @@ h4.account-name {
 .user-eq-height{
     min-height: 300px;
 }
+.navbar-toolbar-right {
+    margin-right: 20px;
+}
+.btn-info {
+    padding: 0 31px;
+    line-height: 0!important;
+}
+.btn-info:hover{
+    background: black!important;
+    border-color: black!important;
+}
+
 @media(max-width:768px){
     .site-navbar .navbar-header .navbar-brand-logo {
         height: 65px;

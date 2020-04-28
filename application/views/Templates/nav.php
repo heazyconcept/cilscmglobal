@@ -34,6 +34,9 @@
 
         <!-- Navbar Toolbar Right -->
         <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          <li class="nav-item">
+            <a href="<?php echo base_url('account/login') ?>" class="nav-link btn btn-info">LOGIN</a>
+          </li>
         
           <!-- <li class="nav-item dropdown">
             <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
