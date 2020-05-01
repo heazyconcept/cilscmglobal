@@ -261,7 +261,7 @@ class Utilities
                 mkdir($folderName, 0777, true);
            }
             $config['upload_path'] = $folderName;
-            $config['allowed_types'] = 'jpg|png|gif|';
+            $config['allowed_types'] = 'jpg|png|gif|doc|docx|pdf';
             $config['max_size'] = 10000;
             $this->ci->load->library('upload', $config);
             if (!$this->ci->upload->do_upload($UploadName)) {
