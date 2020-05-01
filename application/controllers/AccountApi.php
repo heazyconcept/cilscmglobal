@@ -36,6 +36,7 @@ class AccountApi extends CI_Controller
                     $userId = $this->users->Insert($userData);
                     if ($userId > 0) {
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
+                        $userData = $this->utilities->AddPropertyToObJect($userData, "TransactionType", "Certificate");
                         $membershipData = $this->membership->GetMembership($this->request->Membership);
                         if (!empty($membershipData->Template)) {
                             $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
@@ -54,6 +55,31 @@ class AccountApi extends CI_Controller
                 }
                 
                
+            }else {
+                $logResponse = $this->transactionLogs->Insert($this->request);
+                if ($logResponse > 0) {
+                   
+                    $userData = $this->prepareUserData("Pending", "Premium");
+                    $userId = $this->users->Insert($userData);
+                    if ($userId > 0) {
+                        $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
+                        $userData = $this->utilities->AddPropertyToObJect($userData, "TransactionType", "Registration");
+                        $membershipData = $this->membership->GetMembership($this->request->Membership);
+                        if (!empty($membershipData->Template)) {
+                            $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
+                            $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
+                        }
+                        $modelResponse = $this->transactions->Insert($userData);
+                        if ($modelResponse > 0) {
+                            $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
+                            $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
+                            echo $this->utilities->outputMessage("success", "Registration Successful. Kindly hold on while we review your details");
+                            return;
+                        }
+                        
+                    }
+                   
+                }
             }
 
         } catch (\Throwable $th) {
@@ -67,31 +93,30 @@ class AccountApi extends CI_Controller
     public function ValidatePackage()
     {
         try {
-            // $lastId = $this->users->GetLastRegNumberByMembership($this->request->Membership);
-            // $newId = (int) $lastId + 1;
-            // echo $newId;
-            // die();
+            
             $isExists = $this->users->CheckExist($this->request->EmailAddress);
             if ($isExists) {
                 echo $this->utilities->outputMessage("error", "User already exists");
                 return;
             }
+            $ref = $this->utilities->GenerateGUID();
             $premiumPackage = $this->staticOptions->package_group["Premium"];
             if (in_array($this->request->Membership, $premiumPackage)) {
-               $userData = $this->prepareUserData("Pending", "Premium");
-                $userId = $this->users->Insert($userData);
-                if ($userId > 0) {
-                    $membershipData = $this->membership->GetMembership($this->request->Membership);
-                    $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
-                    $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
-                   $message = "premium;Congratulations! Your registration is successful. Kindly exercise Patience while we verify your details";
+            //    $userData = $this->prepareUserData("Pending", "Premium");
+            //     $userId = $this->users->Insert($userData);
+            //     if ($userId > 0) {
+            //         $membershipData = $this->membership->GetMembership($this->request->Membership);
+            //         $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
+            //         $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
+            //       
+            //     }
+                    $message = "premium;{$ref};10000";
                    echo $this->utilities->outputMessage("success", $message);
                    return;
-                }
 
             }else {
-                $message = $this->utilities->GenerateGUID();
-                echo $this->utilities->outputMessage("success", "standard;{$message}");
+                
+                echo $this->utilities->outputMessage("success", "standard;{$ref}");
                 return;
             }
 
@@ -143,6 +168,7 @@ class AccountApi extends CI_Controller
                 $cert = $this->certificate->ProcessCertificate($userData, $membershipData);
                 $tranData = $this->utilities->AddPropertyToObJect($this->request, "Certificate", $cert);
                 $tranData = $this->utilities->AddPropertyToObJect($tranData, "PaidBy", $this->request->UserId);
+                $tranData = $this->utilities->AddPropertyToObJect($tranData, "TransactionType", "Certificate");
                 $tranData = $this->utilities->AddPropertyToObJect($tranData, "Membership", $userData->Membership);
                 $tranResponse = $this->transactions->Insert($tranData);
                 if ($tranResponse > 0) {

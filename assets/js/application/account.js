@@ -219,16 +219,16 @@ function  ValidatePackage(initialStage, sessionData) {
                 resp = JSON.parse(data);
                 if (resp.StatusCode == '00') {
                    var messageArray  = resp.StatusMessage.split(";");
+                   transactionRef = messageArray[1];
                     if (messageArray[0] == "premium") {
-                        $(".premium-content").html(`<p>${messageArray[1]}</p>`);
-                        $(".example-example.premium").fadeIn();
-                        $(".example-example.standard").fadeOut();
+                       sessionData.PackageAmount = messageArray[2];
+                       $(".member-value").html(sessionData.PackageName);
+                       $(".price-value").html(`NGN${numberWithCommas(sessionData.PackageAmount)}`);
                     }else{
-                        transactionRef = messageArray[1];
+                       
                         $(".member-value").html(sessionData.PackageName);
                         $(".price-value").html(`NGN${numberWithCommas(sessionData.PackageAmount)}`);
-                        $(".example-example.standard").fadeIn();
-                        $(".example-example.premium").fadeOut();
+                       
                         
 
                     }

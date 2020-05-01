@@ -447,7 +447,7 @@
                                 <div class="step-four-wrapper" style="display: none;">
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
-                                            <div class="example-example standard" style="display: none;">
+                                            <div class="example-example standard">
                                                 <h4 class="example-title">Payment Details</h4>
                                                 <div class="example">
                                                     <div class="payment-details">
@@ -461,14 +461,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="example-example premium" style="display: none;">
-                                                <h4 class="example-title">Registration Successful</h4>
-                                                <div class="example premium-content">
-
-
-                                                </div>
-                                            </div>
-
+                                          
                                         </div>
                                     </div>
                                 </div>
