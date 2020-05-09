@@ -243,35 +243,23 @@ class Users extends CI_Model
     //     return  array();
 
     // }
-    // public function ChangePassword(string $Password, int $UserId): int
-    // {
-    //     try {
-    //         $token = md5($Password);
-    //         $Password = hash("sha512", $token . $Password);
-    //         $UserUpdate = array(
-    //             "Password" => $Password,
-    //             "Token" => $token,
-    //             "IsPasswordChanged" => 1,
-    //             "ModifiedBy" => $UserId,
-    //             "DateModified" => $this->utilities->DbTimeFormat(),
-    //         );
-    //         $dbOptions = array(
-    //             "table_name" => $this->TableName,
-    //             "process_data" => (object) $UserUpdate,
-    //             "targets" => (object) array("Id" => $UserId),
-    //         );
-    //         $DbResponse = $this->connectDb->modify_data((object) $dbOptions);
-    //         if (!empty($DbResponse)) {
-    //             return 1;
-    //         }
+    public function ChangePassword(string $Password, int $UserId): int
+    {
+        try {
+           
+           $newPassword = password_hash($Password, PASSWORD_DEFAULT);
+           $this->db->set("Password", $newPassword);
+           $this->db->where("Id", $UserId);
+           $this->db->update($this->TableName);
+           return $this->db->affected_rows();
 
-    //     } catch (\Throwable $th) {
-    //         log_message('error', $th->getMessage());
-    //         return -1;
-    //     }
-    //     return 0;
+        } catch (\Throwable $th) {
+            log_message('error', $th->getMessage());
+            return -1;
+        }
+        return 0;
 
-    // }
+    }
     public function ConfirmPassword(string $Password, int $UserId): bool
     {
         try {

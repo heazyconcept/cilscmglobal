@@ -251,29 +251,7 @@ class AccountApi extends CI_Controller
         echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
         return;
     }
-    public function ChangePassword()
-    {
-        try {
-            $this->load->model('users');
-            $request = (object) $_POST;
-            $userId = $this->utilities->GetSessionId();
-            $modelResponse = $this->users->ChangePassword($request->Password, $userId);
-            if ($modelResponse > 0) {
-                $userData = $this->users->Get($userId);
-                $userSession = $this->utilities->PrepareUserSession($userData);
-                $this->utilities->SetSession($userSession);
-                echo $this->utilities->outputMessage("success", "Password changed successfully", base_url('admin/dashboard'));
-                return;
-            }
-
-        } catch (\Throwable $th) {
-            $this->utilities->LogError($th);
-            echo $this->utilities->outputMessage("fatal");
-            return;
-        }
-        echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
-        return;
-    }
+   
     public function PasswordChange()
     {
         try {
@@ -340,6 +318,72 @@ class AccountApi extends CI_Controller
        $prefix = substr($membership, 0, 2);
        $foo = uniqid();
        return "{$prefix}-{$number}";
+    }
+    public function PasswordReset()
+    {
+        try {
+            $this->load->model("passwordReset");
+           $userData = $this->users->GetByEmail($this->request->EmailAddress);
+           if (empty((array) $userData)) {
+               echo $this->utilities->ErrorMessage("User Does not exist");
+               return;
+           }
+           $verificationCode  = $this->utilities->GenerateGUID();
+           $newResetData = array(
+               "UserId" => $userData->Id,
+               "VerificationId" => $verificationCode
+           );
+           $modelResponse = $this->passwordReset->Insert((object) $newResetData);
+           if ($modelResponse > 0) {
+               $url = base_url("account/resetpassword/{$verificationCode}");
+               $message = "<p>You have requested to reset your password </p><p> Please <a href='{$url}' target='_blank'> click here </a> to change your password/p>";
+               $this->emailservices->SendGeneralMail($userData->EmailAddress, $message, $userData->Fullname, "Password Change");
+               echo $this->utilities->SuccessMessage("Password reset has been initiated. Please check your mail for the reset link");
+               return;
+           }
+
+        }catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+            echo $this->utilities->FatalMessage();
+            return;
+        }
+        echo $this->utilities->GenericErrorMessage();
+        return;
+    }
+    public function ChangePassword()
+    {
+        try {
+            $this->load->model("passwordReset");
+           $userData = $this->users->Get($this->request->UserId);
+           if (empty((array) $userData)) {
+               echo $this->utilities->ErrorMessage("User Does not exist");
+               return;
+           }
+           $resetData  = $this->passwordReset->Get($this->request->VerificationId);
+           if (empty((array) $resetData)) {
+            echo $this->utilities->ErrorMessage("Invalid Verification Code");
+            return;
+            }
+            if ($userData->Id != $resetData->UserId) {
+                echo $this->utilities->ErrorMessage("Invalid Verification Code");
+                return;
+            }
+            $userResponse = $this->users->ChangePassword($this->request->Password, $userData->Id);
+            if ($userResponse > 0) {
+               $this->passwordReset->Delete($resetData->UserId);
+               $url = base_url('account/login');
+               echo $this->utilities->SuccessMessage("Password Changed Successfully. You can now procced to login",$url);
+               return;
+            }
+           
+
+        }catch (\Throwable $th) {
+            $this->utilities->LogError($th);
+            echo $this->utilities->FatalMessage();
+            return;
+        }
+        echo $this->utilities->GenericErrorMessage();
+        return;
     }
 
 }

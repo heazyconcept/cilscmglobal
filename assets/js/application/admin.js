@@ -35,7 +35,6 @@ $(document).ready(function () {
         ],
 
     });
-    document.getElementById()
     
     $(".nav-link").click(function () {
         memberName = $(this).data("name");

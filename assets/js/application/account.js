@@ -192,6 +192,26 @@ $(document).ready(function () {
              
          })
      })
+     $(".btn-reset").click(function () {
+         var formData = new FormData();
+         formData.append("EmailAddress", $("#EmailAddress").val());
+         AjaxInit(endpoints.passwordReset, formData, false);
+     })
+     $(".btn-password-change").click(function () { 
+         var formData = new FormData();
+         var userId = $(this).data("id");
+         var code = $(this).data("code");
+         var newPassword = $("#password").val()
+         var passwordConfirm = $("#passwordConfirm").val();
+         if (newPassword != passwordConfirm) {
+             errorMessage("Password Mismatch! Kindly check your password");
+             return;
+         };
+         formData.append("UserId", userId);
+         formData.append("VerificationId", code);
+         formData.append("Password", newPassword);
+         AjaxInit(endpoints.passwordChange, formData, true, false, true);
+      })
    
 
     // var $elem = $(this).closest('div.body').next().find('div.calculationContainer') 

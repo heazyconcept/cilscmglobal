@@ -54,12 +54,24 @@ class Account extends CI_Controller
         $this->session->sess_destroy();
         redirect('');
     }
-    public function changepassword()
+    public function forgotpassword()
     {
-        $this->ConfirmSession();
-        $this->utilities->SetPageTitle("Change your password - ");
-        $this->load->view('Account/Partials/forgot-password');
 
+        $this->utilities->SetPageTitle("Forgot Password - CILSCM");
+        $this->load->view('Account/forgot-password');
+
+    }
+    public function resetpassword($verificationCode)
+    {
+        $this->load->model("passwordReset");
+        $resetData = $this->passwordReset->Get($verificationCode);
+        if (empty((array) $resetData)) {
+            redirect("account/login");
+            return;
+        }
+        $data["resetData"] = $resetData;
+        $this->utilities->SetPageTitle("Change Your password - CILSCM");
+        $this->load->view('Account/reset-password', $data);
     }
      public function changemypassword()
     {

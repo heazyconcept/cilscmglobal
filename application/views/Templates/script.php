@@ -39,7 +39,7 @@
   <script src="<?php echo asset_url('vendor/datatables.net-buttons-bs4/buttons.bootstrap4.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/asrange/jquery-asRange.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('vendor/bootbox/bootbox.min599c.js?v4.0.2') ?>"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- Scripts -->
   <script src="<?php echo asset_url('js/Component.min599c.js?v4.0.2') ?>"></script>
   <script src="<?php echo asset_url('js/Plugin.min599c.js?v4.0.2') ?>"></script>

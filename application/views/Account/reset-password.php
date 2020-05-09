@@ -19,7 +19,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Account</a></li>
-                    <li class="breadcrumb-item active">Login</li>
+                    <li class="breadcrumb-item active">Password - Change</li>
                 </ol>
 
             </div>
@@ -37,7 +37,7 @@
                         <div class="offset-md-2 col-md-8">
                             <div class="panel-heading">
                                 <div class="panel-title">
-                                    Login to your Account
+                                    Change your Password
                                 </div>
                                 <hr>
                             </div>
@@ -52,33 +52,32 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for=""> Email Address/Membership Id</label>
-                                                            <input type="text" class="form-control step-two-field"
-                                                                id="LoginId" placeholder="Email Address/Membership Id"
+                                                            <label for=""> New Password</label>
+                                                            <input type="password" class="form-control step-two-field"
+                                                                id="password" placeholder="Your new password"
                                                                 autocomplete="off" />
                                                         </div>
 
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for=""> Your password</label>
-                                                            <input type="Password" id="Password"
-                                                                class="form-control step-two-field"
-                                                                placeholder="Password" autocomplete="off" />
+                                                            <label for=""> Confirm Password</label>
+                                                            <input type="password" class="form-control step-two-field"
+                                                                id="passwordConfirm" placeholder="Confirm your password"
+                                                                autocomplete="off" />
                                                         </div>
 
                                                     </div>
+                                                  
 
                                                 </div>
                                                 <div class="auth-action">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <button class="btn btn-primary btn-login" type="button">Login</button>
+                                                            <button data-id="<?php echo $resetData->UserId; ?>"  data-code="<?php echo $resetData->VerificationId; ?>" class="btn btn-primary btn-password-change" type="button">Submit</button>
 
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <a class="forgot-password" href="<?php echo base_url('account/forgotpassword') ?>">Forgot password?</a>
-                                                        </div>
+                                                        
                                                     </div>
                                                    
                                                 </div>

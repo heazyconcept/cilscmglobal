@@ -68,7 +68,7 @@ class Utilities
     public function ErrorMessage($message = "")
     {
         $output = array(
-            "StatusCode" => "00",
+            "StatusCode" => "99",
             "StatusMessage" => $message,
         );
         return json_encode($output);
@@ -77,7 +77,7 @@ class Utilities
     public function GenericErrorMessage()
     {
         $output = array(
-            "StatusCode" => "00",
+            "StatusCode" => "99",
             "StatusMessage" => "Your request cannot be processed at this moment. Please try again later",
         );
         return json_encode($output);

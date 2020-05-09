@@ -7,6 +7,8 @@
         login:  "<?php echo base_url('accountApi/Login'); ?>",
         adminLogin:  "<?php echo base_url('accountApi/AdminLogin'); ?>",
         makePayment: "<?php echo base_url('accountApi/MakePayment'); ?>",
+        passwordReset: "<?php echo base_url('accountApi/PasswordReset'); ?>",
+        passwordChange: "<?php echo base_url('accountApi/ChangePassword'); ?>",
         admin:{
             viewMembership:  "<?php echo base_url('adminApi/ViewMembership'); ?>",
             approveMember: "<?php echo base_url('adminApi/ApproveMember/'); ?>",
