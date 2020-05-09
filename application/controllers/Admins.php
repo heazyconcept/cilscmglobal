@@ -19,7 +19,7 @@ class Admins extends CI_Controller
     }
     public function dashboard()
     {
-        
+        $this->load->model("statistics");
         $this->load->view('Admin/dashboard');
 
     }

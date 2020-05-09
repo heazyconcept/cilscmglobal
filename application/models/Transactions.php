@@ -51,6 +51,139 @@ class Transactions extends CI_Model {
      }
      return array();
     }
+    public function ListAll(int $limit = 0, int $start = 0, array $targets = array()): array
+    {
+        try {
+           if (!empty($limit)) {
+               $this->db->limit($limit);
+           }
+           if (!empty($start)) {
+               $this->db->offset($start);
+           }
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $dbResult = $this->db->get($this->TableName)->result();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return array();
+
+    }
+    public function CountAll(array $targets = array()): int
+    {
+        try {
+          
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $dbResult = $this->db->get($this->TableName)->num_rows();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return 0;
+
+    }
+    public function GetSum(array $targets = array()): float
+    {
+        try {
+          
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $this->db->select_sum("Amount", "TotalAmount");
+           $dbResult = $this->db->get($this->TableName)->row();
+           return $dbResult->TotalAmount;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return 0;
+
+    }
+    public function SearchAll(string $search, int $limit = 0, int $start = 0, array $targets = array()): array
+    {
+        try {
+           if (!empty($limit)) {
+               $this->db->limit($limit);
+           }
+           if (!empty($start)) {
+               $this->db->offset($start);
+           }
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $searchArray = array(
+               "Fullname" => $search,
+               "MembershipId" => $search,
+               "EmailAddress" => $search,
+           );
+           $this->db->like($searchArray);
+           $dbResult = $this->db->get($this->TableName)->result();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return array();
+
+    }
+    public function CountSearch(string $search,array $targets = array()): int
+    {
+        try {
+          
+           if (!empty($targets)) {
+               foreach ($targets as $key => $value) {
+                   if (!empty($value)) {
+                       $this->db->where($key, $value);
+                   }
+               }
+           }
+           $searchArray = array(
+            "Fullname" => $search,
+            "MembershipId" => $search,
+            "EmailAddress" => $search,
+        );
+        $this->db->like($searchArray);
+           $dbResult = $this->db->get($this->TableName)->num_rows();
+           return $dbResult;
+
+        } catch (\Throwable $th) {
+
+            log_message('error', $th->getMessage());
+
+        }
+        return 0;
+
+    }
 
 
 }

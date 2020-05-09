@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="<?php echo asset_url('vendor/intro-js/introjs.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/slidepanel/slidePanel.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/flag-icon-css/flag-icon.min599c.css?v4.0.2') ?>">
-
+ 
   <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-bs4/dataTables.bootstrap4.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-fixedcolumns-bs4/dataTables.fixedcolumns.bootstrap4.min599c.css?v4.0.2') ?>">
@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="<?php echo asset_url('vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.min599c.css?v4.0.2') ?>">
 
   <link rel="stylesheet" href="<?php echo asset_url('examples/css/tables/datatable.min599c.css?v4.0.2') ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('examples/css/dashboard/team.min599c.css?v4.0.2') ?>">
 
   <!-- Fonts -->
   <link rel="stylesheet" href="<?php echo asset_url('fonts/web-icons/web-icons.min599c.css?v4.0.2') ?>">

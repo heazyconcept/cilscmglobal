@@ -303,29 +303,7 @@ class Users extends CI_Model
         return true;
 
     }
-    // public function CountUsers(array $targets = array(), string $operator = ''): int
-    // {
-    //     try {
-    //         if (empty($targets)) {
-    //             $dbOptions = array(
-    //                 "table_name" => $this->TableName,
-    //             );
-    //         } else {
-    //             $dbOptions = array(
-    //                 "table_name" => $this->TableName,
-    //                 "targets" => $targets,
-    //                 "operator" => $operator,
-    //             );
-    //         }
-
-    //         $DbResponse = $this->connectDb->count_data((object) $dbOptions);
-    //         return $DbResponse;
-    //     } catch (\Throwable $th) {
-    //         log_message('error', $th->getMessage());
-    //     }
-    //     return 0;
-
-    // }
+   
     public function ListAll(int $limit = 0, int $start = 0, array $targets = array()): array
     {
         try {

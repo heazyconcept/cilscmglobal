@@ -24,7 +24,10 @@
   <link rel="stylesheet" href="<?php echo asset_url('vendor/intro-js/introjs.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/slidepanel/slidePanel.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('vendor/flag-icon-css/flag-icon.min599c.css?v4.0.2') ?>">
-
+  <link rel="stylesheet" href="<?php echo asset_url('vendor/chartist/chartist.min599c.css?v4.0.2') ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min599c.css?v4.0.2') ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('vendor/aspieprogress/asPieProgress.min599c.css?v4.0.2') ?>">
+  <link rel="stylesheet" href="<?php echo asset_url('examples/css/dashboard/team.min599c.css?v4.0.2') ?>">
   <!-- Fonts -->
   <link rel="stylesheet" href="<?php echo asset_url('fonts/web-icons/web-icons.min599c.css?v4.0.2') ?>">
   <link rel="stylesheet" href="<?php echo asset_url('fonts/brand-icons/brand-icons.min599c.css?v4.0.2') ?>">
