@@ -16,7 +16,7 @@ class User extends CI_Controller {
     public function dashboard()
     {
         $this->load->model("transactions");
-        $data["allTransactions"] = $this->transactions->ListByUserId($this->userId);
+        $data["allTransactions"] = $this->transactions->ListByUserandTransaction($this->userId, "Certificate");
         $this->utilities->SetPageTitle("CILSCM - User Dashboard");
         $this->load->view("User/dashboard", $data);
         

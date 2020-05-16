@@ -51,6 +51,18 @@ class Transactions extends CI_Model {
      }
      return array();
     }
+    public function ListByUserandTransaction(int $userId, string $transactionType): array
+    {
+       try {
+           $this->db->where("PaidBy", $userId);
+           $this->db->where("TransactionType", $transactionType);
+           return $this->db->get($this->TableName)->result();
+       } catch (\Throwable $th) {
+        $this->utilities->LogError($th);
+        
+     }
+     return array();
+    }
     public function ListAll(int $limit = 0, int $start = 0, array $targets = array()): array
     {
         try {

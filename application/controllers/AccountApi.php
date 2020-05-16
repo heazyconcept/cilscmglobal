@@ -65,10 +65,7 @@ class AccountApi extends CI_Controller
                         $userData = $this->utilities->AddPropertyToObJect($userData, "PaidBy", $userId);
                         $userData = $this->utilities->AddPropertyToObJect($userData, "TransactionType", "Registration");
                         $membershipData = $this->membership->GetMembership($this->request->Membership);
-                        if (!empty($membershipData->Template)) {
-                            $pdfURl = $this->certificate->ProcessCertificate($userData, $membershipData);
-                            $userData = $this->utilities->AddPropertyToObJect($userData, "Certificate", $pdfURl);
-                        }
+                        
                         $modelResponse = $this->transactions->Insert($userData);
                         if ($modelResponse > 0) {
                             $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
