@@ -23,7 +23,7 @@ class Certificate
                 '#date',
             );
             $actionWith = array(
-              $userData->Fullname,
+               strtoupper($userData->Fullname),
                 strtoupper($userData->MembershipId),    
                 $this->AyearfromNow($this->ci->utilities->DbTimeFormat())
             );

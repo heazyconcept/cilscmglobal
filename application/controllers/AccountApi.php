@@ -314,7 +314,7 @@ class AccountApi extends CI_Controller
        $number =   str_pad($regNumber,  4, "000",STR_PAD_LEFT);
        $prefix = substr($membership, 0, 2);
        $foo = uniqid();
-       return "{$prefix}-{$number}";
+       return "{$prefix}{$number}";
     }
     public function PasswordReset()
     {

@@ -76,5 +76,26 @@ $(document).ready(function () {
         ],
 
     });
+    var certificateTable = $('.certificate-table').DataTable({
+        "Destroy": true,
+        "pageLength": 50,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": endpoints.admin.viewCertificate,
+            "dataType": "json",
+            "type": "GET",
+        },
+        "columns": [
+            { "data": "TransactionRef" },
+            { "data": "Amount" },
+            { "data": "TransactionDate" },
+            { "data": "FullName" },
+            { "data": "EmailAddress" },
+            { "data": "MembershipId" },
+            { "data": "Certificate" }
+        ],
+
+    });
 
 });

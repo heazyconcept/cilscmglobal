@@ -41,7 +41,7 @@
                                                     <h3 class="panel-title">All Transactions</h3>
                                                 </header>
                                                 <div class="panel-body">
-                                                    <table class="table table-hover table-responsive transaction-table table-striped w-full">
+                                                    <table class="table table-hover  certificate-table table-striped w-full">
                                                         <thead>
                                                             <tr>
                                                                 <th>Transaction Ref</th>
@@ -50,7 +50,7 @@
                                                                 <th>Full Name</th>
                                                                 <th>Email Address</th>
                                                                 <th >Membership Id</th>
-                                                                <th>Transaction Type</th>
+                                                                <th>Certificate</th>
                                                             </tr>
                                                         </thead>
                                                         <tfoot>
@@ -61,7 +61,7 @@
                                                                 <th>Full Name</th>
                                                                 <th>Email Address</th>
                                                                 <th >Membership Id</th>
-                                                                <th>Transaction Type</th>
+                                                                <th>Certificate</th>
                                                             </tr>
                                                         </tfoot>
                                                         

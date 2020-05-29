@@ -305,13 +305,13 @@
                                     <div class="row">
                                         <div class="col-md-10 offset-md-1">
                                             <div class="example-example">
-                                                <h4 class="example-title">Personal Details</h4>
+                                                <h4 class="example-title">Personal Details </h4>
                                                 <div class="example">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Full name</label>
-                                                                <input type="text" class="form-control step-two-field"
+                                                                <label for=""> Full name <span class="required r-all">*</span> </label>
+                                                                <input type="text" class="form-control step-two-field f-all"
                                                                     name="Fullname" id="FullName"
                                                                     placeholder="Full Name" autocomplete="off" />
                                                             </div>
@@ -319,8 +319,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Email address</label>
-                                                                <input type="email" class="form-control step-two-field"
+                                                                <label for=""> Email address <span class="required r-all">*</span> </label>
+                                                                <input type="email" class="form-control step-two-field f-all"
                                                                     id="EmailAddress" name="EmailAddress"
                                                                     placeholder="Email address" autocomplete="off" />
                                                             </div>
@@ -328,49 +328,60 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Date of birth</label>
+                                                                <label for=""> Date of birth <span class="required r-all">*</span> </label>
                                                                 <input type="date" name="Dob"
-                                                                    class="form-control step-two-field" id="DOB"
+                                                                    class="form-control step-two-field f-all" id="DOB"
                                                                     placeholder="Date of birth" autocomplete="off" />
                                                             </div>
 
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> O/level Certificate</label>
+                                                                <label for=""> Your password <span class="required r-all">*</span></label>
+                                                                <input type="password" name="Password"
+                                                                    class="form-control step-two-field f-all"
+                                                                    placeholder="Password" autocomplete="off" />
+                                                            </div>
+
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for=""> O/level Certificate <span class="required r-all">*</span> </label>
                                                                 <input type="file" name="OlevelCert"
-                                                                    class="form-control step-two-field"
+                                                                    class="form-control step-two-field f-all"
                                                                     autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Secondary School Certificate</label>
+                                                                <label for=""> Secondary School Certificate <span class="required r-all">*</span> </label>
                                                                 <input type="file" name="SecondarySchoolCert"
-                                                                    class="form-control step-two-field"
+                                                                    class="form-control step-two-field f-all"
                                                                     autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-6">
+                                                       
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Professional Certificate</label>
+                                                                <label for=""> Professional Certificate <span class="required r-premium" style="display: none">*</span> </label>
                                                                 <input type="file" name="ProfessionalCert"
-                                                                    class="form-control step-two-field"
+                                                                    class="form-control step-two-field f-premium"
                                                                     autocomplete="off" />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> University Degree</label>
+                                                                <label for=""> University Degree <span class="required r-premium" style="display: none">*</span> </label>
                                                                 <input type="file" name="UniversityCert"
-                                                                    class="form-control step-two-field"
+                                                                    class="form-control step-two-field f-premium"
                                                                     autocomplete="off" />
                                                             </div>
 
@@ -386,22 +397,14 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="">Current CV</label>
+                                                                <label for="">Current CV <span class="required r-premium" style="display: none">*</span></label>
                                                                 <input type="file" name="Resume"
-                                                                    class="form-control step-two-field"
+                                                                    class="form-control step-two-field f-premium"
                                                                     autocomplete="off" />
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for=""> Your password</label>
-                                                                <input type="password" name="Password"
-                                                                    class="form-control step-two-field"
-                                                                    placeholder="Password" autocomplete="off" />
-                                                            </div>
-
-                                                        </div>
+                                                       
                                                     </div>
                                                     <div class="row">
 
@@ -420,19 +423,19 @@
                                                 <h4 class="example-title">Address Details</h4>
                                                 <div class="example">
                                                     <div class="form-group">
-                                                        <label for=""> Contact Address</label>
+                                                        <label for=""> Contact Address <span class="required r-all">*</span></label>
                                                         <input type="text" class="form-control step-three-field"
                                                             id="Address" placeholder="Address " name="Address"
                                                             autocomplete="off" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for=""> City</label>
+                                                        <label for=""> City <span class="required r-all">*</span></label>
                                                         <input type="text" name="City"
                                                             class="form-control step-three-field" id="City"
                                                             placeholder="City" autocomplete="off" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for=""> State</label>
+                                                        <label for=""> State <span class="required r-all">*</span></label>
                                                         <input type="text" name="State"
                                                             class="form-control step-three-field" id="State"
                                                             placeholder="State" autocomplete="off" />

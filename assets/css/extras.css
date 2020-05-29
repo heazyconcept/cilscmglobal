@@ -137,6 +137,7 @@ label {
     min-height: 710px;
     max-height: 710px;
 }
+
 .btn-login, .btn-login:active, .btn-login:focus {
     background: var(--site-primary-color);
     border: none;
@@ -211,7 +212,18 @@ h4.account-name {
     background: black!important;
     border-color: black!important;
 }
-
+.required {
+    color: red;
+}
+.hidden-sm{
+    display: block;
+}
+.hidden-sm-flex{
+    display: flex;
+}
+.hidden-lg, .hidden-lg-flex{
+    display: none;
+}
 @media(max-width:768px){
     .site-navbar .navbar-header .navbar-brand-logo {
         height: 65px;
@@ -235,5 +247,24 @@ h4.account-name {
     }
     .example-wrap {
         margin-bottom: 20px;
+    }
+    .hidden-sm, .hidden-sm-flex{
+        display: none;
+    }
+    .hidden-lg{
+        display: block;
+    }
+    .hidden-lg-flex{
+        display: flex;
+    }
+    body.site-navbar-small {
+        padding-top: 20px;
+    }
+    .btn-info {
+        padding: 15px 20px;
+        line-height: 0!important;
+    }
+    a.mobile-icon {
+        font-size: 25px;
     }
 }

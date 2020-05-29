@@ -35,6 +35,11 @@ class Admins extends CI_Controller
         $this->utilities->SetPageTitle("Transactions - CILSCM");
         $this->load->view('Admin/transactions');
     }
+    public function certificate()
+    {
+        $this->utilities->SetPageTitle("Certificates - CILSCM");
+        $this->load->view('Admin/certificate');
+    }
 
     private function ConfirmSession()
     {
