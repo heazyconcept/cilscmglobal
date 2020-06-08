@@ -11,6 +11,7 @@ class AccountApi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('users');
+        $this->load->model('membership');
         $this->load->library("emailservices");
         $this->request = (object) $_POST;
         $this->config->load('options', true);
@@ -23,7 +24,7 @@ class AccountApi extends CI_Controller
           
             $this->load->model("transactionLogs");
             $this->load->model('transactions');
-            $this->load->model('membership');
+            // $this->load->model('membership');
             $this->load->library("certificate");
            
             
@@ -311,8 +312,9 @@ class AccountApi extends CI_Controller
     }
     public function GenerateMembershipId(int $regNumber, string $membership)
     {
+        $membershipData = $this->membership->GetMembership($membership);
        $number =   str_pad($regNumber,  4, "000",STR_PAD_LEFT);
-       $prefix = substr($membership, 0, 2);
+       $prefix = $membershipData->Prefix;
        $foo = uniqid();
        return "{$prefix}{$number}";
     }
