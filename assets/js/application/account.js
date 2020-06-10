@@ -11,8 +11,12 @@ $(document).ready(function () {
         email: "",
         country: ""
     }
+    sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
     $(".btn-package").click(function () {
+        userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
         var presentState = userDetails.regState;
+        console.log(presentState);
+        
         if ($("#country").val() == null || $("#country").val() == undefined || $("#country").val() == '') {
             errorMessage("you need to select country");
             return;
@@ -144,8 +148,8 @@ $(document).ready(function () {
                 sessionData.regState = "step-one";
                 break;
             case "step-three":
-                sessionData.regState = "step-four";
-                $('.next-previous').hide("fast");
+                sessionData.regState = "step-two";
+                // $('.next-previous').hide("fast");
                 break;
 
 
@@ -269,17 +273,20 @@ function ValidatePackage(initialStage, sessionData) {
 
                 } else {
                     errorMessage(resp.StatusMessage);
+                    $('.next-previous').show("fast");
                 }
 
             } catch (error) {
                 console.log(error);
                 fatalMessage();
+                $('.next-previous').show("fast");
             }
 
         },
         error: function (err) {
             console.log(err);
             fatalMessage();
+            $('.next-previous').show("fast");
 
         },
         cache: false,
