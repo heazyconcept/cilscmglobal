@@ -261,12 +261,16 @@ class Utilities
                 mkdir($folderName, 0777, true);
            }
             $config['upload_path'] = $folderName;
-            $config['allowed_types'] = 'jpg|png|gif|doc|docx|pdf';
+            $config['allowed_types'] = 'jpg|png|gif|doc|docx|pdf|jpeg';
             $config['max_size'] = 10000;
             $this->ci->load->library('upload', $config);
             if (!$this->ci->upload->do_upload($UploadName)) {
                 $error = array('error' => $this->ci->upload->display_errors());
                 $foo = json_encode($error);
+                $word = 'The filetype you are attempting to upload is not allowed';
+                if (strpos($foo, $word) !== false) {
+                    return 'error';
+                }
                 log_message('error',$foo);
                 return '';
 

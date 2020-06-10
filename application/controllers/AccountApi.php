@@ -100,20 +100,13 @@ class AccountApi extends CI_Controller
             $ref = $this->utilities->GenerateGUID();
             $premiumPackage = $this->staticOptions->package_group["Premium"];
             if (in_array($this->request->Membership, $premiumPackage)) {
-            //    $userData = $this->prepareUserData("Pending", "Premium");
-            //     $userId = $this->users->Insert($userData);
-            //     if ($userId > 0) {
-            //         $membershipData = $this->membership->GetMembership($this->request->Membership);
-            //         $mailHtml = $this->emailservices->processRegHtml($userData, $membershipData->Registration);
-            //         $this->emailservices->SendDynamicMail($userData->EmailAddress, $mailHtml, "CILSCM Registration");
-            //       
-            //     }
+                     $userData = $this->prepareUserData("Pending", "Premium");
                     $message = "premium;{$ref};10000";
                    echo $this->utilities->outputMessage("success", $message);
                    return;
 
             }else {
-                
+                $userData = $this->prepareUserData("Pending", "Standard");
                 echo $this->utilities->outputMessage("success", "standard;{$ref}");
                 return;
             }
@@ -281,15 +274,40 @@ class AccountApi extends CI_Controller
         echo $this->utilities->outputMessage("error", "Your request cannot be processed at this moment. Please try again later");
         return;
     }
-    private function prepareUserData(string $status, string $membershipGroup): stdClass
+    private function prepareUserData(string $status, string $membershipGroup)
     {
         try {
+            $this->load->library("utilities");
             $OlevelCert = $this->utilities->UploadFile("OlevelCert", "Certificates");
             $SecondarySchoolCert = $this->utilities->UploadFile("SecondarySchoolCert", "Certificates");
             $ProfessionalCert = $this->utilities->UploadFile("ProfessionalCert", "Certificates");
             $UniversityCert = $this->utilities->UploadFile("UniversityCert", "Certificates");
             $OtherCert = $this->utilities->UploadFile("OtherCert", "Certificates");
             $Resume = $this->utilities->UploadFile("Resume", "Certificates");
+            if ($OlevelCert == "error") {
+                echo $this->utilities->ErrorMessage("Olevel Certificate Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
+            if ($ProfessionalCert == "error") {
+                echo $this->utilities->ErrorMessage("Professional Certificate Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
+            if ($SecondarySchoolCert == "error") {
+                echo $this->utilities->ErrorMessage("Secondary School Certificate Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
+            if ($UniversityCert == "error") {
+                echo $this->utilities->ErrorMessage("University Certificate Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
+            if ($OtherCert == "error") {
+                echo $this->utilities->ErrorMessage("Other Certificate Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
+            if ($Resume == "error") {
+                echo $this->utilities->ErrorMessage("Resume Format is not Allowed you can only upload jpg,png,pdf,doc or docx");
+                die();
+            }
             $userData = $this->utilities->AddPropertyToObJect($this->request, "OlevelCert", $OlevelCert);
             $userData = $this->utilities->AddPropertyToObJect($userData, "SecondarySchoolCert", $SecondarySchoolCert);
             $userData = $this->utilities->AddPropertyToObJect($userData, "ProfessionalCert", $ProfessionalCert);

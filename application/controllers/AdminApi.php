@@ -58,12 +58,12 @@ class AdminApi extends CI_Controller
                     $nestedData['EmailAddress'] = $obj->EmailAddress;
                     $nestedData['DOB'] = $obj->Dob;
                     $nestedData['Address'] = "{$obj->Address}<br>{$obj->City}<br>{$obj->State}<br>{$obj->Country}";
-                    $nestedData['Olevel'] = "<a href='{$obj->OlevelCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>" ;
-                    $nestedData['SecSchool'] = "<a href='{$obj->SecondarySchoolCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
-                    $nestedData['ProfessionalCert'] = "<a href='{$obj->ProfessionalCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
-                    $nestedData['UniversityCert'] = "<a href='{$obj->UniversityCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
-                    $nestedData['OtherCert'] = "<a href='{$obj->OtherCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
-                    $nestedData['Resume'] = "<a href='{$obj->Resume}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
+                    $nestedData['Olevel'] = (empty($obj->OlevelCert))? "N/A" : "<a href='{$obj->OlevelCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>" ;
+                    $nestedData['SecSchool'] = (empty($obj->SecondarySchoolCert))? "N/A" : "<a href='{$obj->SecondarySchoolCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
+                    $nestedData['ProfessionalCert'] = (empty($obj->ProfessionalCert))? "N/A" : "<a href='{$obj->ProfessionalCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
+                    $nestedData['UniversityCert'] = (empty($obj->UniversityCert))? "N/A" : "<a href='{$obj->UniversityCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
+                    $nestedData['OtherCert'] =  (empty($obj->OtherCert))? "N/A" : "<a href='{$obj->OtherCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
+                    $nestedData['Resume'] =  (empty($obj->Resume))? "N/A" : "<a href='{$obj->Resume}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>";
                     $nestedData['Action'] = ($obj->Status == 'Pending')?  "<button data-id='{$obj->Id}' class='btn btn-success btn-block btn-approve'>Approve</button>
                     <button data-id='{$obj->Id}' class='btn btn-danger btn-block btn-reject'>Reject</button>" : "";
                     $data[] = $nestedData;
