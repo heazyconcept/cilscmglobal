@@ -19,6 +19,7 @@ $(document).ready(function () {
             { "data": "Membership" },
             { "data": "Status" },
             { "data": "EmailAddress" },
+            { "data": "PhoneNumber" },
             { "data": "DOB", "width": "200px" },
             { "data": "Address" },
             { "data": "Olevel" },

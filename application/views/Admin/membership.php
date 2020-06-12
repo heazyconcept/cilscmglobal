@@ -69,6 +69,7 @@
                                                                 <th>Membership</th>
                                                                 <th>Status</th>
                                                                 <th>Email Address</th>
+                                                                <th>Phone Number</th>
                                                                 <th>Date of Birth</th>
                                                                 <th>Address</th>
                                                                 <th>Olevel Certificate</th>
@@ -87,6 +88,7 @@
                                                                 <th>Membership</th>
                                                                 <th>Status</th>
                                                                 <th>Email Address</th>
+                                                                <th>Phone Number</th>
                                                                 <th>Date of Birth</th>
                                                                 <th>Address</th>
                                                                 <th>Olevel Certificate</th>

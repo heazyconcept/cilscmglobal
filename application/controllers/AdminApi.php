@@ -56,6 +56,7 @@ class AdminApi extends CI_Controller
                     $nestedData['Membership'] = $obj->Membership;
                     $nestedData['Status'] = $obj->Status;
                     $nestedData['EmailAddress'] = $obj->EmailAddress;
+                    $nestedData['PhoneNumber'] = $obj->PhoneNumber;
                     $nestedData['DOB'] = $obj->Dob;
                     $nestedData['Address'] = "{$obj->Address}<br>{$obj->City}<br>{$obj->State}<br>{$obj->Country}";
                     $nestedData['Olevel'] = (empty($obj->OlevelCert))? "N/A" : "<a href='{$obj->OlevelCert}' class='btn btn-secondary btn-block' target='_blank'>VIEW</a>" ;
