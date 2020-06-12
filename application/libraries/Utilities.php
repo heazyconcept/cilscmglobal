@@ -267,11 +267,12 @@ class Utilities
             if (!$this->ci->upload->do_upload($UploadName)) {
                 $error = array('error' => $this->ci->upload->display_errors());
                 $foo = json_encode($error);
+                log_message('error',$foo);
                 $word = 'The filetype you are attempting to upload is not allowed';
                 if (strpos($foo, $word) !== false) {
                     return 'error';
                 }
-                log_message('error',$foo);
+                
                 return '';
 
             } else {
