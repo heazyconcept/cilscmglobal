@@ -57,7 +57,8 @@ class Users extends CI_Model
                "Country" => $request->Country,
                "RegNumber" => $request->RegNumber??0,
                "MembershipId" => $request->MembershipId??"",
-               "Password" => password_hash($request->Password, PASSWORD_DEFAULT)
+               "Password" => password_hash($request->Password, PASSWORD_DEFAULT),
+               "PhoneNumber" => $request->PhoneNumber
            );
            $this->db->insert($this->TableName, $newUser);
            return $this->db->insert_id();

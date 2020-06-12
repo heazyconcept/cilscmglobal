@@ -349,6 +349,15 @@
                                                     <div class="row">
                                                     <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label for="">Phone Number <span class="required r-all">*</span> </label>
+                                                                <input type="text" name="PhoneNumber"
+                                                                    class="form-control step-two-field f-all"
+                                                                    autocomplete="off" />
+                                                            </div>
+
+                                                        </div>
+                                                    <div class="col-md-6">
+                                                            <div class="form-group">
                                                                 <label for=""> O/level Certificate <span class="required r-all">*</span> </label>
                                                                 <input type="file" name="OlevelCert"
                                                                     class="form-control step-two-field f-all"
@@ -357,7 +366,10 @@
 
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                                     
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for=""> Secondary School Certificate <span class="required r-all">*</span> </label>
                                                                 <input type="file" name="SecondarySchoolCert"
@@ -366,10 +378,9 @@
                                                             </div>
 
                                                         </div>
-                                                       
-                                                    </div>
-                                                    <div class="row">
+                                        
                                                     <div class="col-md-6">
+                                                    
                                                             <div class="form-group">
                                                                 <label for=""> Professional Certificate <span class="required r-premium" style="display: none">*</span> </label>
                                                                 <input type="file" name="ProfessionalCert"
@@ -395,7 +406,11 @@
                                                             </div>
 
                                                         </div>
-                                                        <div class="col-md-6">
+                                                       
+                                                       
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="">Current CV <span class="required r-premium" style="display: none">*</span></label>
                                                                 <input type="file" name="Resume"
@@ -404,9 +419,6 @@
                                                             </div>
 
                                                         </div>
-                                                       
-                                                    </div>
-                                                    <div class="row">
 
                                                     </div>
 

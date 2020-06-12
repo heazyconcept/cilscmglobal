@@ -26,3 +26,5 @@ assets/css.zip
 application/models.zip
 upload/Certificates/*
 pdfs/*
+*.zip
+
