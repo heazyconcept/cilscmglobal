@@ -371,9 +371,9 @@
                                                     <div class="row">
                                                     <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> Secondary School Certificate <span class="required r-all">*</span> </label>
+                                                                <label for=""> Secondary School Certificate  </label>
                                                                 <input type="file" name="SecondarySchoolCert"
-                                                                    class="form-control step-two-field f-all"
+                                                                    class="form-control step-two-field"
                                                                     autocomplete="off" />
                                                             </div>
 
@@ -382,17 +382,17 @@
                                                     <div class="col-md-6">
                                                     
                                                             <div class="form-group">
-                                                                <label for=""> Professional Certificate <span class="required r-premium" style="display: none">*</span> </label>
+                                                                <label for=""> Professional Certificate  </label>
                                                                 <input type="file" name="ProfessionalCert"
-                                                                    class="form-control step-two-field f-premium"
+                                                                    class="form-control step-two-field"
                                                                     autocomplete="off" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for=""> University Degree <span class="required r-premium" style="display: none">*</span> </label>
+                                                                <label for=""> University Degree  </label>
                                                                 <input type="file" name="UniversityCert"
-                                                                    class="form-control step-two-field f-premium"
+                                                                    class="form-control step-two-field "
                                                                     autocomplete="off" />
                                                             </div>
 
