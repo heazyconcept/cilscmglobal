@@ -7,6 +7,5 @@ deployment:
     - /bin/cp -R json $DEPLOYPATH
     - /bin/cp -R maitemplate $DEPLOYPATH
     - /bin/cp -R system $DEPLOYPATH
-    - /bin/cp -R upload $DEPLOYPATH
     - /bin/cp .htaccess $DEPLOYPATH
     - /bin/cp index.php $DEPLOYPATH
