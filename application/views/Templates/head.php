@@ -7,8 +7,8 @@
 
   <title><?php echo $this->utilities->GetPageTitle(); ?></title>
 
-  <link rel="apple-touch-icon" href="<?php echo asset_url('images/apple-touch-icon.png') ?>">
-  <link rel="shortcut icon" href="<?php echo asset_url('images/favicon.ico') ?>">
+  <link rel="apple-touch-icon" href="https://www.cilscmglobal.org/wp-content/uploads/2018/06/cilscm_logo.png">
+  <link rel="shortcut icon" href="https://www.cilscmglobal.org/wp-content/uploads/2018/06/cilscm_logo.png">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="<?php echo asset_url('css/bootstrap.min599c.css?v4.0.2') ?>">
